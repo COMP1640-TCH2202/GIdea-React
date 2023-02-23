@@ -8,6 +8,8 @@ function App() {
         <p>
           This will be GreenIdea Project App
         </p>
+        <p>Components should be placed inside App.js</p>
+        <p>Routes, Theme can be set in index.js</p>
       </header>
     </div>
   );
