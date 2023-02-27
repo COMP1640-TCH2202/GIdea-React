@@ -1,16 +1,20 @@
 import './App.css';
-import logo from './logo.svg';
+import Login from './components/Login';
+import MainPage from './components/Admin/MainPage/MainPage';
+import { Routes, Route, Link } from 'react-router-dom';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          This will be GreenIdea Project App
-        </p>
-      </header>
-    </div>
-  );
+  <div>
+    <Link to='/login'>Login</Link>
+     <br/>
+    <Link to='/admin'>MainPage</Link>
+
+    <Routes>
+      <Route path='/login' element={<Login />} />
+      <Route path='/admin' element={<MainPage />} />
+    </Routes>
+  </div>
+  )
 }
 
 export default App;
