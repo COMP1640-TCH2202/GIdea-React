@@ -2,12 +2,13 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route, Link } from 'react-router-dom';
 import styles from "../Navbar/Navbar.module.scss"
-const Navbar = (props) => {
+import ManageAccount from '../Admin/ManageAccount/ManageAccount';
+const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
                 <div className={styles.nav_logo}>
-                <Link className="navbar-brand" to="">GreenIdea</Link>
+                <Link className="navbar-brand" to="/">GreenIdea</Link>
                 </div>
                 <div className={styles.search_container}>
                     <form>
@@ -17,8 +18,7 @@ const Navbar = (props) => {
                     </form>
                 </div>
                 <div className={styles.nav_icons}>
-                    <span className={styles.nav_icon}>Icon 1</span>
-                    <span className={styles.nav_icon}>Icon 2 </span>
+                    <Link to ="/manage-account">ManageAccount</Link>
                 </div>
             </div>
         </nav>
