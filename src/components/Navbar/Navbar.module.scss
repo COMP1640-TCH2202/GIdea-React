@@ -1,0 +1,33 @@
+nav {
+    background-color: #20DF7F;
+    display: flex;
+    justify-content: space-between;
+}
+.nav_logo {
+    min-width: 200px;
+    flex: 1;
+}
+.search_container {
+    flex: 3;
+   form {
+    display: flex;
+    align-items: center;
+   }
+}
+
+.nav_icons {
+    display: flex;
+    min-width: 200px;
+    flex: 1;
+    justify-content: flex-end;
+    padding: 0 16px 0 4px;
+    .nav_icon {
+        margin-left: 8px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .search_container {
+        display: none;
+    }
+}

@@ -1,16 +1,19 @@
 import './App.css';
-import logo from './logo.svg';
+// import Login from './components/Login/Login';
+import CreateAccount from './components/Admin/CreateAccount/CreateAccount';
+import { Routes, Route, Link } from 'react-router-dom';
+import ManageAccount from './components/Admin/ManageAccount/ManageAccount';
+import Navbar from './components/Navbar/Navbar';
+import { Fragment } from 'react';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          This will be GreenIdea Project App
-        </p>
-      </header>
-    </div>
-  );
+    <>
+      <Navbar />
+      <Routes>
+        <Route path='/manage-account' element={<ManageAccount />} />
+      </Routes>
+    </>
+  )
 }
 
 export default App;
