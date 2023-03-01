@@ -11,7 +11,7 @@ const ManageAccount = () => {
             <div className={styles.add_btn}>
                 <Link to='/create-account'>Create new account</Link>
             </div>
-            <div><i class="fa fa-pencil" aria-hidden="true"></i> </div>
+            <div><i class="fa fa-pencil" aria-hidden="true"></i></div>
             <table>
                 <thead>
                     <tr>
