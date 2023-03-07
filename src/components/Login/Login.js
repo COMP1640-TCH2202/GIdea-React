@@ -23,16 +23,12 @@ function Login() {
         },
     });
     
-    console.log(process.env)
-
     const onSubmit = async (data) => {
         const request = {
             email: data.email,
             password: data.password,
         };
         
-        console.log("Sending data: ", request);
-
         //Because login() return a Promise so we have to resolve it
         //can also use await
         login(request)
