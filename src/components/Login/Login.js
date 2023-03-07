@@ -28,6 +28,8 @@ function Login() {
             email: data.email,
             password: data.password,
         };
+        
+        console.log("Sending data: ", request);
 
         //Because login() return a Promise so we have to resolve it
         //can also use await
