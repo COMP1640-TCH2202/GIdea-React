@@ -2,8 +2,7 @@ import axios from "axios";
 import { clearUser } from "./common";
 
 const instance = axios.create({
-    // baseURL: "https://greenidea.azurewebsites.net/api",
-    baseURL: "http://localhost:8000",
+    baseURL: process.env.REACT_APP_API_BASEURL,
     headers: {
         "X-Requested-With": "XMLHttpRequest",
         // "Content-Type": "application/json",

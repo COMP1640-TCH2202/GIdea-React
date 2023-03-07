@@ -14,6 +14,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import CategoryManagement from "./pages/ManagerPages/CategoryManagement";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import PrivateRoutes from "./routes/PrivateRoutes";
+import PublicRoutes from "./routes/PublicRoutes";
 
 const queryClient = new QueryClient();
 
@@ -22,43 +24,53 @@ function App() {
         <>
             <QueryClientProvider client={queryClient}>
                 <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route element={<HomeLayout />}>
-                        <Route index element={<HomePage />} />
-                        <Route path="*" element={<NotFoundPage />} />
+                    <Route element={<PublicRoutes />}>
+                        <Route path="/login" element={<Login />} />
                     </Route>
-                    <Route element={<ManagementLayout />}>
-                        <Route
-                            element={<ProtectedRoutes allowedRole={"admin"} />}
-                        >
-                            <Route path="/admin" element={<AdminPage />} />
-                        </Route>
 
-                        <Route
-                            element={
-                                <ProtectedRoutes allowedRole={"manager"} />
-                            }
-                        >
-                            <Route path="/manager">
-                                <Route index element={<ManagerPage />} />
+                    <Route element={<PrivateRoutes />}>
+                        <Route element={<HomeLayout />}>
+                            <Route index element={<HomePage />} />
+                        </Route>
+                        <Route element={<ManagementLayout />}>
+                            <Route
+                                element={
+                                    <ProtectedRoutes allowedRole={"admin"} />
+                                }
+                            >
+                                <Route path="/admin" element={<AdminPage />} />
+                            </Route>
+
+                            <Route
+                                element={
+                                    <ProtectedRoutes allowedRole={"manager"} />
+                                }
+                            >
+                                <Route path="/manager">
+                                    <Route index element={<ManagerPage />} />
+                                    <Route
+                                        path="categories"
+                                        element={<CategoryManagement />}
+                                    />
+                                </Route>
+                            </Route>
+
+                            <Route
+                                element={
+                                    <ProtectedRoutes
+                                        allowedRole={"coordinator"}
+                                    />
+                                }
+                            >
                                 <Route
-                                    path="categories"
-                                    element={<CategoryManagement />}
+                                    path="/coordinator"
+                                    element={<CoordinatorPage />}
                                 />
                             </Route>
                         </Route>
-
-                        <Route
-                            element={
-                                <ProtectedRoutes allowedRole={"coordinator"} />
-                            }
-                        >
-                            <Route
-                                path="/coordinator"
-                                element={<CoordinatorPage />}
-                            />
-                        </Route>
                     </Route>
+
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                 <ReactQueryDevtools initialIsOpen />
             </QueryClientProvider>

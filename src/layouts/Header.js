@@ -11,10 +11,10 @@ const Header = ({ user }) => {
                 </Navbar.Brand>
                 <Nav>
                     <NavDropdown
-                        title={`${user.lastName} ${user.firstName}`}
+                        title={`${user?.lastName} ${user?.firstName}`}
                         id="basic-nav-dropdown"
                     >
-                        <NavDropdown.Item as={Link} to="account">
+                        <NavDropdown.Item as={Link} to="profile">
                             My Account
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
