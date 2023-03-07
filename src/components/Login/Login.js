@@ -22,6 +22,8 @@ function Login() {
             password: "",
         },
     });
+    
+    console.log(process.env)
 
     const onSubmit = async (data) => {
         const request = {
