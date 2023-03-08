@@ -1,16 +1,18 @@
 import './App.css';
 // import Login from './components/Login/Login';
+import { Routes, Route } from 'react-router-dom';
 import CreateAccount from './components/Admin/CreateAccount/CreateAccount';
-import { Routes, Route, Link } from 'react-router-dom';
 import ManageAccount from './components/Admin/ManageAccount/ManageAccount';
-import Navbar from './components/Navbar/Navbar';
-import { Fragment } from 'react';
+import AccountDetail from './components/Admin/AccountDetail/AccountDetail';
+import MainPage from './components/MainPage/MainPage';
 function App() {
   return (
     <>
-      <Navbar />
       <Routes>
+        <Route path='/' element={<MainPage />} />
         <Route path='/manage-account' element={<ManageAccount />} />
+        <Route path='/create-account' element={<CreateAccount/>} />
+        <Route path='/detail/:id' element={<AccountDetail/>} />
       </Routes>
     </>
   )

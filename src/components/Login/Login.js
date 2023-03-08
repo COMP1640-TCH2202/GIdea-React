@@ -3,10 +3,12 @@ import clsx from 'clsx'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import styles from "../Login/Login.module.scss"
+import Navbar from '../Navbar/Navbar';
 
 function Login() {
     return (
         <div className={styles.login_container}>
+            <Navbar/>
             <div className={styles.form_container}>
                 <Form>
                     <h1 className={styles.login_heading}>Log in</h1>
