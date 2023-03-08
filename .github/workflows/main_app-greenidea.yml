@@ -54,3 +54,5 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5560C7692C6D45AE9ACF86E8ACD96066 }}
           package: .
+        env:
+          REACT_APP_API_BASEURL: "https://greenidea.azurewebsites.net"
