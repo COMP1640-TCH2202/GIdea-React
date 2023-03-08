@@ -1,0 +1,55 @@
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+}
+.modalContainer {
+    background-color: #fff;
+    width: 600px;
+    min-height: 150px;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid;
+    box-shadow: 0 0 1em 0 rgba($color: #000000, $alpha: 0.8);
+}
+.title {
+    background-color: #0cc84b;
+    display: flex;
+    height: 50px;
+    border-bottom: 1px #ccc solid;
+    align-items: center;
+    h1 {
+        font-size: 16px;
+        margin: 0;
+        padding: 16px;
+    }
+}
+.closeBtn {
+    position: fixed;
+    right: 8px;
+    border: none;
+    color: #ccc;
+    background-color: transparent;
+    &:hover {
+        color:#000000;
+    }
+}
+
+.content {
+    h1 {
+        font-size: 16px;
+        font-weight: lighter;
+        padding: 16px;
+        border-bottom: 1px #ccc solid;
+    } 
+}
+
+.btnContainer {
+    position: relative;
+    button {
+        margin: 8px 8px;
+    }
+}
