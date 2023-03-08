@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CI: false
 
     steps:
       - uses: actions/checkout@v2
@@ -26,6 +28,8 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+        env:
+          REACT_APP_API_BASEURL: "https://greenidea.azurewebsites.net"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -54,5 +58,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5560C7692C6D45AE9ACF86E8ACD96066 }}
           package: .
-        env:
-          REACT_APP_API_BASEURL: "https://greenidea.azurewebsites.net"
