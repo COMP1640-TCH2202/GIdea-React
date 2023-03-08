@@ -1,43 +1,55 @@
 import { React, useState, useEffect } from 'react';
 import styles from '../ManageAccount/ManageAccount.module.scss'
+import clsx from 'clsx';
+import Modal from '../../Modal/Modal';
 import Navbar from '../../Navbar/Navbar';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BsPencil, BsTrashFill } from "react-icons/bs";
-import { BiDetail } from "react-icons/bi";
+
 import axios from 'axios';
+import { Container } from 'react-bootstrap';
+
 
 const ManageAccount = () => {
+    const selectedId = useRef(null)
+    const [showModal, setShowModal] = useState(false)
     const [accounts, setAccounts] = useState([]);
     useEffect(() => {
         viewAllAccounts();
     }, [])
 
-    const viewAllAccounts =  () => {
+    const viewAllAccounts = () => {
         axios.get("https://jsonplaceholder.typicode.com/users")
             .then((res) => {
                 setAccounts(res.data)
-                console.log(res.data)
             })
             .catch((err) => {
                 console.log(err);
             })
     }
 
-   const handleDelete = (id, e) => {
-    console.log("delete clciked")
-            axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+    const handleDelete = (id) => {
+        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
             .then((res) => {
                 setAccounts(accounts.filter(account => account.id !== id));
-                console.log(id)
+                setShowModal(false)
             })
             .catch((err) => {
                 console.log(err);
             })
     }
-    
+
+    const toggle = () => {
+        setShowModal(!showModal);
+        console.log(showModal)
+    }
+
     return (
-        <div className={styles.list_account}>
-            <Navbar />
+        <>
+        {showModal && <Modal title='Notification' content = 'Are you sure to delete this account ?' handleDelete = {handleDelete} modalShow = {setShowModal} id={selectedId.current}/>}
+        <Navbar />
+        <div className={clsx(styles.list_account, 'container')}>
             <h1 style={{ textAlign: 'center', marginTop: "2em" }}>Account Management</h1>
             <div className={styles.add_btn}>
                 <Link to='/create-account'>Create new account</Link>
@@ -61,26 +73,27 @@ const ManageAccount = () => {
                                 <td data-label="department">{account.username}</td>
                                 <td data-label="status">Online</td>
                                 <td>
-                                    <button className={styles.btn_view}>
-                                        <BiDetail/>
-                                    </button>
-                                    <Link to = {`detail/${account.id}`}>
-                                    <button className={styles.btn_edit}>
-                                        <BsPencil />
-                                    </button>
+                                    <Link to={`/detail/${account.id}`}>
+                                        <button className={styles.btn_edit}>
+                                            <BsPencil />
+                                        </button>
                                     </Link>
-                                    <button className={styles.btn_delete} onClick = {() => handleDelete(account.id)}>
+                                    <button className={styles.btn_delete} onClick={() => {
+                                        selectedId.current = account.id
+                                        toggle()
+                                    }
+                                        }>
                                         <BsTrashFill />
                                     </button>
                                 </td>
                             </tr>
                         )
                     })}
+                    
                 </tbody>
             </table>
         </div>
-
+    </>
     );
 }
-
 export default ManageAccount;
