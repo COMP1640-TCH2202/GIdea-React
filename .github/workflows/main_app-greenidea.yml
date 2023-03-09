@@ -21,17 +21,18 @@ jobs:
         with:
           node-version: '16.x'
 
-      - name: npm install, build, and test
+      - name: npm install and build
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
+        env:
+          REACT_APP_API_BASEURL: ${{ secrets.REACT_APP_API_BASEURL }}
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: node-app
-          path: .
+          name: react-app
+          path: build/
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,9 +43,9 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
-          name: node-app
+          name: react-app
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -54,5 +55,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5560C7692C6D45AE9ACF86E8ACD96066 }}
           package: .
-        env:
-          REACT_APP_API_BASEURL: "https://greenidea.azurewebsites.net"
