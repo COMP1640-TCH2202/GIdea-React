@@ -5,7 +5,38 @@ import { Link } from "react-router-dom";
 const SideNav = ({ role }) => {
     return (
         <Stack gap={2}>
-            {role === "manager" && (
+            <Row>
+                <Col>
+                    <div className="d-grid gap-2">
+                        <Button variant="outline-dark" as={Link} to=".">
+                            Dashboard
+                        </Button>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <div className="d-grid gap-2">
+                        <Button variant="outline-dark" as={Link} to="./ideas">
+                            Ideas
+                        </Button>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <div className="d-grid gap-2">
+                        <Button
+                            variant="outline-dark"
+                            as={Link}
+                            to="./categories"
+                        >
+                            Categories
+                        </Button>
+                    </div>
+                </Col>
+            </Row>
+            {role === "admin" && (
                 <>
                     <Row>
                         <Col>
@@ -13,9 +44,9 @@ const SideNav = ({ role }) => {
                                 <Button
                                     variant="outline-dark"
                                     as={Link}
-                                    to="manager"
+                                    to="./accounts"
                                 >
-                                    Dashboard
+                                    Accounts
                                 </Button>
                             </div>
                         </Col>
@@ -26,22 +57,9 @@ const SideNav = ({ role }) => {
                                 <Button
                                     variant="outline-dark"
                                     as={Link}
-                                    to="manager/ideas"
+                                    to="./departments"
                                 >
-                                    Ideas
-                                </Button>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <div className="d-grid gap-2">
-                                <Button
-                                    variant="outline-dark"
-                                    as={Link}
-                                    to="manager/categories"
-                                >
-                                    Categories
+                                    Departments
                                 </Button>
                             </div>
                         </Col>

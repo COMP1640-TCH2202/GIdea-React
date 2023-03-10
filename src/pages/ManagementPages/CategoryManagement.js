@@ -1,13 +1,17 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { FaFilter, FaPen, FaTrash } from "react-icons/fa";
-import CategoryTable from "../../components/Tables/DataTable";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "../../services/CategoryService";
+import CategoryTable from "../../components/Tables/DataTable";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import UpdateCanvas from "../../components/Canvas/UpdateCanvas";
 
 const CategoryManagement = () => {
+    const [showUpdate, setShowUpdate] = useState(false);
+    const handleShowUpdate = () => setShowUpdate(!showUpdate);
+
     const columns = useMemo(
         () => [
             {
@@ -52,6 +56,7 @@ const CategoryManagement = () => {
 
     const {
         isLoading,
+        isFetching,
         isError,
         data: categories,
     } = useQuery({
@@ -70,7 +75,7 @@ const CategoryManagement = () => {
             </Row>
             <Row>
                 <Col>
-                    <Button>Add category</Button>
+                    <Button onClick={handleShowUpdate}>Add category</Button>
                 </Col>
                 <Col style={{ display: "flex" }}>
                     <SearchBar />
@@ -87,8 +92,15 @@ const CategoryManagement = () => {
                     data={categories}
                     isError={isError}
                     isLoading={isLoading}
+                    isFetching={isFetching}
                 />
             </Row>
+
+            <UpdateCanvas
+                name={"category"}
+                show={showUpdate}
+                handleShow={handleShowUpdate}
+            />
         </>
     );
 };
