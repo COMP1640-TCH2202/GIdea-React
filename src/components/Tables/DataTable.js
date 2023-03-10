@@ -3,8 +3,9 @@ import { Button, Table, Row, Col } from "react-bootstrap";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Pagination from "../Pagination/Pagination";
+import LoadingIndicator from "../Loading/LoadingIndicator";
 
-const DataTable = ({ columns, data, isError, isLoading }) => {
+const DataTable = ({ columns, data, isError, isLoading, isFetching }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -30,58 +31,54 @@ const DataTable = ({ columns, data, isError, isLoading }) => {
     );
 
     if (isError) return <div>Something went wrong...</div>;
+    if (isLoading) return <LoadingIndicator />;
 
     return (
         <>
-            {isLoading ? (
-                <div>Loading...</div>
-            ) : (
-                <Table responsive striped bordered hover {...getTableProps()}>
-                    <thead>
-                        {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column) => (
-                                    <th
-                                        {...column.getHeaderProps(
-                                            { style: { width: column.width } },
-                                            column.getSortByToggleProps()
-                                        )}
-                                    >
-                                        {column.render("Header")}
-                                        <span>
-                                            {column.isSorted ? (
-                                                column.isSortedDesc ? (
-                                                    <SortButtonDown />
-                                                ) : (
-                                                    <SortButtonUp />
-                                                )
+            <Table responsive striped bordered hover {...getTableProps()}>
+                <thead>
+                    {headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <th
+                                    {...column.getHeaderProps(
+                                        column.getSortByToggleProps()
+                                    )}
+                                >
+                                    {column.render("Header")}
+                                    <span>
+                                        {column.isSorted ? (
+                                            column.isSortedDesc ? (
+                                                <SortButtonDown />
                                             ) : (
-                                                <SortButtonUnsorted />
-                                            )}
-                                        </span>
-                                    </th>
-                                ))}
+                                                <SortButtonUp />
+                                            )
+                                        ) : (
+                                            <SortButtonUnsorted />
+                                        )}
+                                    </span>
+                                </th>
+                            ))}
+                        </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {page.map((row, i) => {
+                        prepareRow(row);
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map((cell) => {
+                                    return (
+                                        <td {...cell.getCellProps()}>
+                                            {cell.render("Cell")}
+                                        </td>
+                                    );
+                                })}
                             </tr>
-                        ))}
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                        {page.map((row, i) => {
-                            prepareRow(row);
-                            return (
-                                <tr {...row.getRowProps()}>
-                                    {row.cells.map((cell) => {
-                                        return (
-                                            <td {...cell.getCellProps()}>
-                                                {cell.render("Cell")}
-                                            </td>
-                                        );
-                                    })}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
-            )}
+                        );
+                    })}
+                </tbody>
+            </Table>
 
             <Row className="mt-3">
                 <Col>
