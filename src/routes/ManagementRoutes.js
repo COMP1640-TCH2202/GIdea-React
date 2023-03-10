@@ -25,7 +25,7 @@ const ManagementRoutes = () => {
                     />
                     <Route path="ideas/*" element={<IdeaManagement />}/>
                     <Route
-                        path="*"
+                        path="/*"
                         element={
                             <Navigate
                                 to="/404"
@@ -41,7 +41,7 @@ const ManagementRoutes = () => {
                     <Route path="accounts/*" element={<AccountManagement />} />
                     <Route path="departments/*" element={<DepartmentManagement />} />
                     <Route
-                        path="*"
+                        path="/*"
                         element={
                             <Navigate
                                 to="/404"
