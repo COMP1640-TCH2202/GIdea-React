@@ -1,8 +1,24 @@
 import React from "react";
 import { Container, Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../services/UserService";
+import { clearUser } from "../utils/common";
 
 const Header = ({ user }) => {
+    const navigate = useNavigate();
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await logout();
+            if (response.status < 400) {
+                clearUser();
+                navigate("/login");
+            }
+        } catch (error) {
+            alert(error.response.status, ": ", error.response.data);
+        }
+    };
+
     return (
         <Navbar bg="light" expand="lg">
             <Container fluid>
@@ -32,10 +48,7 @@ const Header = ({ user }) => {
                             </NavDropdown.Item>
                         )}
                         <NavDropdown.Divider />
-                        <NavDropdown.Item
-                            as={Button}
-                            onClick={() => alert("logged out")}
-                        >
+                        <NavDropdown.Item as={Button} onClick={handleLogout}>
                             Logout
                         </NavDropdown.Item>
                     </NavDropdown>
