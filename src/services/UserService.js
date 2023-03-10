@@ -9,12 +9,15 @@ export const login = async (request) => {
     // });
     // return data;
 
-    const csrf = await api.get('/sanctum/csrf-cookie');
+    const csrf = await api.get("/sanctum/csrf-cookie");
     console.log("csrf: ", csrf);
     return api.post("/api/login", request);
-    
-}
+};
 
 export const getLoggedInUser = async (request) => {
     return api.get("/api/user");
-}
+};
+
+export const logout = async () => {
+    return api.post("/api/logout");
+};
