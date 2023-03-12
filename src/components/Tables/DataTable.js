@@ -6,6 +6,7 @@ import Pagination from "../Pagination/Pagination";
 import LoadingIndicator from "../Loading/LoadingIndicator";
 
 const DataTable = ({ columns, data, isError, isLoading, isFetching }) => {
+    console.log(data)
     const {
         getTableProps,
         getTableBodyProps,
