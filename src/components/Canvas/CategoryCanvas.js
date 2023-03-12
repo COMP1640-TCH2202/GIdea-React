@@ -9,7 +9,7 @@ const schema = yup.object({
     name: yup.string().required("Please provide a name for this category"),
 });
 
-const UpdateCanvas = ({ name, ...props }) => {
+const CategoryCanvas = ({ name, ...props }) => {
     const {
         control,
         handleSubmit,
@@ -110,4 +110,4 @@ const UpdateCanvas = ({ name, ...props }) => {
     );
 };
 
-export default UpdateCanvas;
+export default CategoryCanvas;

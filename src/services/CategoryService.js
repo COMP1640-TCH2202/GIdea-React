@@ -7,3 +7,6 @@ export const getAllCategories = async () => {
 
 export const createCategory = async (request) =>
     api.post("/api/categories", request);
+
+export const deleteCategory = async (id) => 
+    api.delete(`/api/categories/${id}`);

@@ -3,10 +3,8 @@ import { Button, Table, Row, Col } from "react-bootstrap";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Pagination from "../Pagination/Pagination";
-import LoadingIndicator from "../Loading/LoadingIndicator";
 
-const DataTable = ({ columns, data, isError, isLoading, isFetching }) => {
-    console.log(data)
+const DataTable = ({ columns, queryData, isError, isLoading, isFetching }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -24,15 +22,13 @@ const DataTable = ({ columns, data, isError, isLoading, isFetching }) => {
     } = useTable(
         {
             columns,
-            data,
+            data: queryData.data,
             initialState: { pageIndex: 0, pageSize: 5 },
+            autoResetPage: false
         },
         useSortBy,
         usePagination
     );
-
-    if (isError) return <div>Something went wrong...</div>;
-    if (isLoading) return <LoadingIndicator />;
 
     return (
         <>
@@ -80,7 +76,6 @@ const DataTable = ({ columns, data, isError, isLoading, isFetching }) => {
                     })}
                 </tbody>
             </Table>
-
             <Row className="mt-3">
                 <Col>
                     <Button>Export Data</Button>
