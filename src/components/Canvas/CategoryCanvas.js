@@ -4,12 +4,14 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { createCategory } from "../../services/CategoryService";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAlert } from "../../contexts/AlertProvider";
 
 const schema = yup.object({
     name: yup.string().required("Please provide a name for this category"),
 });
 
-const CategoryCanvas = ({ name, ...props }) => {
+const CategoryCanvas = ({ name, show, handleShow }) => {
     const {
         control,
         handleSubmit,
@@ -20,15 +22,30 @@ const CategoryCanvas = ({ name, ...props }) => {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = async (data) => {
+    const { handleSuccess, setMessage } = useAlert();
+    const queryClient = useQueryClient();
+    const mutation = useMutation({
+        mutationFn: (category) => createCategory(category),
+        onSuccess: (res) => {
+            queryClient
+                .invalidateQueries(["categories"], { exact: true })
+                .then(() => {
+                    handleShow();
+                    setMessage(`Category ${res?.data?.name} is created`);
+                    handleSuccess();
+                });
+        },
+    });
+
+    const onSubmit = (data) => {
         const request = {
             name: data.name,
         };
-        console.log("inside: ", isSubmitting);
-        return createCategory(request)
+        return mutation
+            .mutateAsync(request)
             .then((res) => {
                 reset({ name: "" });
-                props.handleShow();
+                handleShow();
             })
             .catch((err) => {
                 if (err.response.status === 400) {
@@ -45,8 +62,8 @@ const CategoryCanvas = ({ name, ...props }) => {
 
     return (
         <Offcanvas
-            show={props.show}
-            onHide={props.handleShow}
+            show={show}
+            onHide={handleShow}
             placement={"end"}
             backdrop="static"
         >
@@ -100,7 +117,7 @@ const CategoryCanvas = ({ name, ...props }) => {
                     <Button
                         className="mx-2"
                         variant="secondary"
-                        onClick={props.handleShow}
+                        onClick={handleShow}
                     >
                         Close
                     </Button>
