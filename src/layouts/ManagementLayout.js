@@ -14,7 +14,7 @@ const ManagementLayout = () => {
             <Container fluid>
                 <Row style={{ margin: "24px 0px" }}>
                     <Col sm={2}>
-                        <SideNav role={user.role} />
+                        <SideNav role={user?.role} />
                     </Col>
                     <Col sm={true}>
                         <Container fluid>

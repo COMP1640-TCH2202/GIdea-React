@@ -20,11 +20,21 @@ function App() {
         <>
             <QueryClientProvider client={queryClient}>
                 <Routes>
-                    <Route element={<PublicRoutes />}>
-                        <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route element={<HomeLayout />}>
+                        <Route index element={<HomePage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
                     </Route>
+                    <Route path="management/*" element={<ManagementRoutes />} />
 
-                    <Route element={<PrivateRoutes />}>
+                    {/* Temporay commented out to by pass authentication process */}
+                    {/* Delete above code when done */}
+
+                    {/* <Route element={<PublicRoutes />}>
+                        <Route path="/login" element={<Login />} />
+                    </Route> */}
+
+                    {/* <Route element={<PrivateRoutes />}>
                         <Route element={<HomeLayout />}>
                             <Route index element={<HomePage />} />
                             <Route path="/profile" element={<ProfilePage />} />
@@ -33,7 +43,7 @@ function App() {
                             path="management/*"
                             element={<ManagementRoutes />}
                         />
-                    </Route>
+                    </Route> */}
 
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
