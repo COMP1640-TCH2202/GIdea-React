@@ -12,12 +12,39 @@ import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
 import ManagementRoutes from "./routes/ManagementRoutes";
 import ProfilePage from "./pages/ProfilePage";
+import { useAlert } from "./contexts/AlertProvider";
+import { ToastContainer, Toast } from "react-bootstrap";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
+});
 
 function App() {
+    const { openSuccess, openFailure, message, close } = useAlert();
+
     return (
         <>
+            <ToastContainer position="top-center" style={{ marginTop: 16 }}>
+                <Toast
+                    show={openSuccess}
+                    autohide={true}
+                    delay={3000}
+                    onClose={close}
+                    className="align-items-center text-bg-success border-0"
+                >
+                    <Toast.Body>{message}</Toast.Body>
+                </Toast>
+                <Toast
+                    show={openFailure}
+                    autohide={true}
+                    delay={3000}
+                    onClose={close}
+                    className="align-items-center text-bg-danger border-0"
+                >
+                    <Toast.Body>{message}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+
             <QueryClientProvider client={queryClient}>
                 <Routes>
                     <Route path="/login" element={<Login />} />
