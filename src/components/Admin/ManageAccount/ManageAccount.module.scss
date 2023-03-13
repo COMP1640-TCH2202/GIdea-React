@@ -1,4 +1,6 @@
+.list_account {
 
+}
 .add_btn {
     display: flex;
     justify-content: flex-end;
@@ -12,7 +14,7 @@
         background-color: #067a40;
         text-decoration: none;
         color: #fff;
-        margin: 2em 2em 2em 0;
+        margin: 2em 0;
         padding: 0.625em;
         &:hover {
             background-color: #035029;
@@ -127,16 +129,33 @@ table {
         }
     }
 }
-
-.btn-delete {
-    width: 50px;
-    border: none;
-    outline:  none;
-    background: transparent;
+.btn_delete {
+    background-color: #fff;
+    font-size: 16px;
+    border:none;
     color: red;
-
     &:hover {
-        background-color: transparent !important;
-        color: red !important;
+        color: rgb(130, 20, 20);
+    }
+}
+
+.btn_edit {
+    box-sizing: border-box;
+    height: 16px;
+    background-color: #fff;
+    font-size: 16px;
+    border:none;
+    color: #067a40;
+    &:hover {
+        color: #035029;
+    }
+}
+.btn_view {
+    background-color: #fff;
+    font-size: 16px;
+    border:none;
+    color: rgb(189, 198, 17);
+    &:hover {
+        color: rgb(131, 140, 50);
     }
 }
