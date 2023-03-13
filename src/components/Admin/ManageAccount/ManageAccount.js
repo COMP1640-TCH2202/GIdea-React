@@ -2,13 +2,11 @@ import { React, useState, useEffect } from 'react';
 import styles from '../ManageAccount/ManageAccount.module.scss'
 import clsx from 'clsx';
 import Modal from '../../Modal/Modal';
-import Navbar from '../../Navbar/Navbar';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BsPencil, BsTrashFill } from "react-icons/bs";
 
 import axios from 'axios';
-import { Container } from 'react-bootstrap';
 
 
 const ManageAccount = () => {
@@ -48,11 +46,10 @@ const ManageAccount = () => {
     return (
         <>
         {showModal && <Modal title='Notification' content = 'Are you sure to delete this account ?' handleDelete = {handleDelete} modalShow = {setShowModal} id={selectedId.current}/>}
-        <Navbar />
         <div className={clsx(styles.list_account, 'container')}>
             <h1 style={{ textAlign: 'center', marginTop: "2em" }}>Account Management</h1>
             <div className={styles.add_btn}>
-                <Link to='/create-account'>Create new account</Link>
+                <Link to='./create-account'>Create new account</Link>
             </div>
             <table>
                 <thead>
@@ -73,7 +70,7 @@ const ManageAccount = () => {
                                 <td data-label="department">{account.username}</td>
                                 <td data-label="status">Online</td>
                                 <td>
-                                    <Link to={`/detail/${account.id}`}>
+                                    <Link to={`./${account.id}`}>
                                         <button className={styles.btn_edit}>
                                             <BsPencil />
                                         </button>

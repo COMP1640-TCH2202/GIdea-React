@@ -7,6 +7,9 @@ import IdeaManagement from "../pages/ManagementPages/IdeaManagement";
 import AccountManagement from "../pages/ManagementPages/AccountManagement";
 import DepartmentManagement from "../pages/ManagementPages/DepartmentManagement";
 import ProtectedRoutes from "./ProtectedRoutes";
+import ManageAccount from "../components/Admin/ManageAccount/ManageAccount";
+import CreateAccount from "../components/Admin/CreateAccount/CreateAccount"
+import AccountDetail from "../components/Admin/AccountDetail/AccountDetail"
 
 const ManagementRoutes = () => {
     const location = useLocation();
@@ -16,7 +19,12 @@ const ManagementRoutes = () => {
                 <Route index element={<Dashboard />} />
                 <Route path="categories/*" element={<CategoryManagement />} />
                 <Route path="ideas/*" element={<IdeaManagement />} />
-                <Route path="accounts/*" element={<AccountManagement />} />
+                {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
+                <Route path="accounts">
+                    <Route index element={<ManageAccount />} />
+                    <Route path="create-account" element={<CreateAccount />} />
+                    <Route path=":id" element={<AccountDetail />} />
+                </Route>
                 <Route
                     path="departments/*"
                     element={<DepartmentManagement />}
