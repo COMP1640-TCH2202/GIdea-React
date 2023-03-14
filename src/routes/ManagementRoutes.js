@@ -16,38 +16,7 @@ const ManagementRoutes = () => {
     return (
         <Routes>
             <Route element={<ManagementLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="categories/*" element={<CategoryManagement />} />
-                <Route path="ideas/*" element={<IdeaManagement />} />
-                {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
-                <Route path="accounts">
-                    <Route index element={<ManageAccount />} />
-                    <Route path="create-account" element={<CreateAccount />} />
-                    <Route path=":id" element={<AccountDetail />} />
-                </Route>
-                <Route
-                    path="departments/*"
-                    element={<DepartmentManagement />}
-                />
-                <Route
-                    path="/*"
-                    element={
-                        <Navigate
-                            to="/404"
-                            state={{ from: location }}
-                            replace
-                        />
-                    }
-                />
-
-                {/* Temporary commented out to by pass authentication */}
-                {/* Delete above code when done */}
-
-                {/* <Route
-                    element={
-                        <ProtectedRoutes allowedRoles={["manager", "admin"]} />
-                    }
-                >
+                <Route element={<ProtectedRoutes allowedRoles={["manager", "admin"]} />}>
                     <Route index element={<Dashboard />} />
                     <Route
                         path="categories/*"
@@ -68,7 +37,14 @@ const ManagementRoutes = () => {
 
                 <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
                     <Route index element={<Dashboard />} />
-                    <Route path="accounts/*" element={<AccountManagement />} />
+                    
+                    {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
+                    <Route path="accounts">
+                        <Route index element={<ManageAccount />} />
+                        <Route path="create-account" element={<CreateAccount />} />
+                        <Route path=":id" element={<AccountDetail />} />
+                    </Route>
+                    
                     <Route path="departments/*" element={<DepartmentManagement />} />
                     <Route
                         path="/*"
@@ -80,7 +56,7 @@ const ManagementRoutes = () => {
                             />
                         }
                     />
-                </Route> */}
+                </Route>
             </Route>
         </Routes>
     );
