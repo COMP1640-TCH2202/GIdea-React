@@ -24,19 +24,19 @@ const AccountDetail = () => {
                     <h1 className='text-center'>Account Detail</h1>
                     <Form.Group className="mb-3 d-flex">
                         <Form.Label>Name:</Form.Label>
-                        <Form.Control type="text" value={account.name} readOnly ='false'/>
+                        <Form.Control type="text" value={account.name} onChange={e => e.target.value}/>
                     </Form.Group>
                     <Form.Group className="mb-3 d-flex" >
                         <Form.Label>Email:</Form.Label>
-                        <Form.Control type="email" value={account.email} readOnly ='false'/>
+                        <Form.Control type="email" value={account.email} onChange={e => e.target.value}/>
                     </Form.Group>
                     <Form.Group className="mb-3 d-flex" >
                         <Form.Label>Address:</Form.Label>
-                        <Form.Control type="text" value={account.address.street} readOnly ='false'/>
+                        <Form.Control type="text" value={account.address.street} onChange={e => e.target.value}/>
                     </Form.Group>
                     <Form.Group className="mb-3 d-flex" >
                         <Form.Label>Username:</Form.Label>
-                        <Form.Control type="text" value={account.username} readOnly = 'false'/>
+                        <Form.Control type="text" value={account.username} onChange={e => e.target.value}/>
                     </Form.Group>
                     <Form.Group className="mb-3 d-flex" >
                         <Form.Label>Company:</Form.Label>

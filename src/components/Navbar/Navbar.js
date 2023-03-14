@@ -1,14 +1,17 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from "../Navbar/Navbar.module.scss"
-import ManageAccount from '../Admin/ManageAccount/ManageAccount';
+import { RiAccountCircleFill } from "react-icons/ri";
+// import { AiFillCaretDown } from "react-icons/ai"
+import { MdNotifications } from "react-icons/md"
+import { Dropdown } from 'react-bootstrap';
 const Navbar = () => {
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
                 <div className={styles.nav_logo}>
-                <Link className="navbar-brand" to="/">GreenIdea</Link>
+                    <Link className="navbar-brand" to="/">GreenIdea</Link>
                 </div>
                 <div className={styles.search_container}>
                     <form>
@@ -18,7 +21,19 @@ const Navbar = () => {
                     </form>
                 </div>
                 <div className={styles.nav_icons}>
-                    <Link to ="/manage-account">ManageAccount</Link>
+                    <button className={styles.nav_notification}>
+                        <MdNotifications style={{ fontSize: '24px' }} />
+                    </button>
+                    <Dropdown>
+                        <Dropdown.Toggle className={styles.nav_profile}>
+                            <RiAccountCircleFill style={{ fontSize: '24px' }} />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Link className={styles.sub_item} to="/manage-account">Users Management</Link>
+                            <Link className={styles.sub_item} to="/">Logout</Link>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
             </div>
         </nav>

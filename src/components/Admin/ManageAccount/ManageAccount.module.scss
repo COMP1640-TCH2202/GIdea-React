@@ -1,6 +1,4 @@
-.list_account {
 
-}
 .add_btn {
     display: flex;
     justify-content: flex-end;
@@ -33,7 +31,7 @@ table {
     thead {
         background: #067a40;
         height: 60px !important;
-        tr {
+        tr[key] {
             th:first-child {
                 padding-left: 45px;
             }
@@ -122,7 +120,7 @@ table {
                     button {
                         flex: 1;
                         margin-top: 1em;
-                        margin-left: 1em;
+                        // margin-left: 1em;
                     }
                 }
             }
@@ -140,22 +138,11 @@ table {
 }
 
 .btn_edit {
-    box-sizing: border-box;
-    height: 16px;
     background-color: #fff;
     font-size: 16px;
     border:none;
     color: #067a40;
     &:hover {
         color: #035029;
-    }
-}
-.btn_view {
-    background-color: #fff;
-    font-size: 16px;
-    border:none;
-    color: rgb(189, 198, 17);
-    &:hover {
-        color: rgb(131, 140, 50);
     }
 }
