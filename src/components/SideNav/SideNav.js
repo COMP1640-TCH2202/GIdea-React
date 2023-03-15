@@ -36,7 +36,7 @@ const SideNav = ({ role }) => {
                     </div>
                 </Col>
             </Row>
-            {role === "admin" && (
+            {/* {role === "admin" && ( */}
                 <>
                     <Row>
                         <Col>
@@ -78,7 +78,7 @@ const SideNav = ({ role }) => {
                         </Col>
                     </Row>
                 </>
-            )}
+            {/* )} */}
         </Stack>
     );
 };
