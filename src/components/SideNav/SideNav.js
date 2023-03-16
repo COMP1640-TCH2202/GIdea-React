@@ -64,6 +64,19 @@ const SideNav = ({ role }) => {
                             </div>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col>
+                            <div className="d-grid gap-2">
+                                <Button
+                                    variant="outline-dark"
+                                    as={Link}
+                                    to="./events"
+                                >
+                                    Events
+                                </Button>
+                            </div>
+                        </Col>
+                    </Row>
                 </>
             {/* )} */}
         </Stack>
