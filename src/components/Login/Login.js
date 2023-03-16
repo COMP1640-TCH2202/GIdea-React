@@ -7,7 +7,6 @@ import { useForm, Controller } from "react-hook-form";
 import { login } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../../utils/common";
-import Navbar from '../Navbar/Navbar';
 
 function Login() {
     const navigate = useNavigate();
