@@ -1,13 +1,11 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from '../ManageAccount/ManageAccount.module.scss'
 import clsx from 'clsx';
 import Modal from '../../Modal/Modal';
 import Navbar from '../../Navbar/Navbar';
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BsPencil, BsTrashFill } from "react-icons/bs";
-
-import axios from 'axios';
+import * as accountService from "../../../services/AccountsService"
 
 
 const ManageAccount = () => {
@@ -19,9 +17,10 @@ const ManageAccount = () => {
     }, [])
 
     const viewAllAccounts = () => {
-        axios.get("https://jsonplaceholder.typicode.com/users")
+       accountService.getAllUsers()
             .then((res) => {
-                setAccounts(res.data)
+                console.log(res)
+                setAccounts(res.data.data)
             })
             .catch((err) => {
                 console.log(err);
@@ -29,7 +28,7 @@ const ManageAccount = () => {
     }
 
     const handleDelete = (id) => {
-        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+        accountService.deleteUser(id)
             .then((res) => {
                 setAccounts(accounts.filter(account => account.id !== id));
                 setShowModal(false)
@@ -44,6 +43,8 @@ const ManageAccount = () => {
         console.log(showModal)
     }
 
+    
+
     return (
         <>
             {showModal && <Modal title='Notification' content='Are you sure to delete this account ?' handleDelete={handleDelete} modalShow={setShowModal} id={selectedId.current} />}
@@ -56,10 +57,12 @@ const ManageAccount = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Id</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Email</th>
-                            <th>Username</th>
-                            <th>Status</th>
+                            <th>Department</th>
+                            <th>Role</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -67,10 +70,12 @@ const ManageAccount = () => {
                         {accounts.map((account, index) => {
                             return (
                                 <tr key={index}>
-                                    <td data-label="account-name">{account.name}</td>
-                                    <td data-label="role">{account.email}</td>
-                                    <td data-label="department">{account.username}</td>
-                                    <td data-label="status">Online</td>
+                                    <td data-label="account-id">{account.id}</td>
+                                    <td data-label="account-first-name">{account.first_name}</td>
+                                    <td data-label="account-last-name">{account.last_name}</td>
+                                    <td data-label="email">{account.email}</td>
+                                    <td data-label="department">{account.department}</td>
+                                    <td data-label="role">{account.role}</td>
                                     <td>
                                         <button className={styles.btn_edit} onClick={() => window.location.href = `/detail/${account.id}`}>
                                             <BsPencil />
@@ -78,7 +83,7 @@ const ManageAccount = () => {
                                         <button className={styles.btn_delete} onClick={() => {
                                             selectedId.current = account.id
                                             toggle()
-                                        }
+                                            }
                                         }>
                                             <BsTrashFill />
                                         </button>
