@@ -52,7 +52,7 @@ const ManageAccount = () => {
             <div className={clsx(styles.list_account, 'container')}>
                 <h1 style={{ textAlign: 'center', marginTop: "2em" }}>Account Management</h1>
                 <div className={styles.add_btn}>
-                    <Link to='/create-account'>Create new account</Link>
+                    <Link to='./create-account'>Create new account</Link>
                 </div>
                 <table>
                     <thead>
@@ -77,7 +77,7 @@ const ManageAccount = () => {
                                     <td data-label="department">{account.department}</td>
                                     <td data-label="role">{account.role}</td>
                                     <td>
-                                        <button className={styles.btn_edit} onClick={() => window.location.href = `/detail/${account.id}`}>
+                                        <button className={styles.btn_edit} onClick={() => window.location.href = `/management/accounts/${account.id}`}>
                                             <BsPencil />
                                         </button>
                                         <button className={styles.btn_delete} onClick={() => {

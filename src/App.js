@@ -47,6 +47,7 @@ function App() {
 
             <QueryClientProvider client={queryClient}>
                 <Routes>
+                    
                     <Route path="/login" element={<Login />} />
                     <Route element={<HomeLayout />}>
                         <Route index element={<HomePage />} />
@@ -54,14 +55,12 @@ function App() {
                     </Route>
                     <Route path="management/*" element={<ManagementRoutes />} />
 
-                    {/* Temporay commented out to by pass authentication process */}
-                    {/* Delete above code when done */}
-
+                    {/* Comment out to disable authentication process */}
                     {/* <Route element={<PublicRoutes />}>
                         <Route path="/login" element={<Login />} />
-                    </Route> */}
+                    </Route>
 
-                    {/* <Route element={<PrivateRoutes />}>
+                    <Route element={<PrivateRoutes />}>
                         <Route element={<HomeLayout />}>
                             <Route index element={<HomePage />} />
                             <Route path="/profile" element={<ProfilePage />} />
@@ -71,7 +70,6 @@ function App() {
                             element={<ManagementRoutes />}
                         />
                     </Route> */}
-
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                 <ReactQueryDevtools initialIsOpen />

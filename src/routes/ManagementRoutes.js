@@ -6,29 +6,31 @@ import CategoryManagement from "../pages/ManagementPages/CategoryManagement";
 import IdeaManagement from "../pages/ManagementPages/IdeaManagement";
 import AccountManagement from "../pages/ManagementPages/AccountManagement";
 import DepartmentManagement from "../pages/ManagementPages/DepartmentManagement";
+import EventManagement from "../pages/ManagementPages/EventManagement";
 import ProtectedRoutes from "./ProtectedRoutes";
 import ManageAccount from "../components/Admin/ManageAccount/ManageAccount";
-import CreateAccount from "../components/Admin/CreateAccount/CreateAccount"
-import AccountDetail from "../components/Admin/AccountDetail/AccountDetail"
+import CreateAccount from "../components/Admin/CreateAccount/CreateAccount";
+import AccountDetail from "../components/Admin/AccountDetail/AccountDetail";
 
 const ManagementRoutes = () => {
     const location = useLocation();
     return (
         <Routes>
             <Route element={<ManagementLayout />}>
+                {/* Temporary use to bypass authentication process */}
                 <Route index element={<Dashboard />} />
                 <Route path="categories/*" element={<CategoryManagement />} />
                 <Route path="ideas/*" element={<IdeaManagement />} />
-                {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
                 <Route path="accounts">
-                    <Route index element={<ManageAccount />} />
-                    <Route path="create-account" element={<CreateAccount />} />
-                    <Route path=":id" element={<AccountDetail />} />
-                </Route>
+                        <Route index element={<ManageAccount />} />
+                        <Route path="create-account" element={<CreateAccount />} />
+                        <Route path=":id" element={<AccountDetail />} />
+                    </Route>
                 <Route
                     path="departments/*"
                     element={<DepartmentManagement />}
                 />
+                <Route path="events/*" element={<EventManagement />} />
                 <Route
                     path="/*"
                     element={
@@ -40,14 +42,7 @@ const ManagementRoutes = () => {
                     }
                 />
 
-                {/* Temporary commented out to by pass authentication */}
-                {/* Delete above code when done */}
-
-                {/* <Route
-                    element={
-                        <ProtectedRoutes allowedRoles={["manager", "admin"]} />
-                    }
-                >
+                {/* <Route element={<ProtectedRoutes allowedRoles={["manager", "admin"]} />}>
                     <Route index element={<Dashboard />} />
                     <Route
                         path="categories/*"
@@ -64,12 +59,21 @@ const ManagementRoutes = () => {
                             />
                         }
                     />
-                </Route>
+                </Route> */}
 
-                <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path="accounts/*" element={<AccountManagement />} />
+                {/* <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
+                    <Route index element={<Dashboard />} /> */}
+
+                {/* Keep below line */}
+                {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
+                {/* <Route path="accounts">
+                        <Route index element={<ManageAccount />} />
+                        <Route path="create-account" element={<CreateAccount />} />
+                        <Route path=":id" element={<AccountDetail />} />
+                    </Route>
+                    
                     <Route path="departments/*" element={<DepartmentManagement />} />
+                    <Route path="events/*" element={<EventManagement />} />
                     <Route
                         path="/*"
                         element={
