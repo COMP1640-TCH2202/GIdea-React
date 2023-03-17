@@ -7,7 +7,7 @@ import CategoryTable from "../../components/Tables/DataTable";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CategoryCanvas from "../../components/Canvas/CategoryCanvas";
 import TrashButton from "../../components/Buttons/TrashButton";
-import LoadingIndicator from "../../components/Loading/LoadingIndicator";
+import LoadingIndicator from "../../components/Indicator/LoadingIndicator";
 
 const CategoryManagement = () => {
     const [showUpdate, setShowUpdate] = useState(false);

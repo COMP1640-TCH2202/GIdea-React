@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { Fragment } from "react";
 import Login from "./components/Login/Login";
 
@@ -14,13 +14,14 @@ import ManagementRoutes from "./routes/ManagementRoutes";
 import ProfilePage from "./pages/ProfilePage";
 import { useAlert } from "./contexts/AlertProvider";
 import { ToastContainer, Toast } from "react-bootstrap";
+import IdeaDetail from "./components/Idea/IdeaDetail";
 
 const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
 });
 
 function App() {
-    const { openSuccess, openFailure, message, close } = useAlert();
+    const { openSuccess, openFailure, message, close, pathLink } = useAlert();
 
     return (
         <>
@@ -32,7 +33,19 @@ function App() {
                     onClose={close}
                     className="align-items-center text-bg-success border-0"
                 >
-                    <Toast.Body>{message}</Toast.Body>
+                    <Toast.Body>
+                        {message}{" "}
+                        {pathLink && (
+                            <Link
+                                to={pathLink}
+                                style={{
+                                    color: "inherit",
+                                }}
+                            >
+                                View your submission
+                            </Link>
+                        )}
+                    </Toast.Body>
                 </Toast>
                 <Toast
                     show={openFailure}
@@ -47,11 +60,11 @@ function App() {
 
             <QueryClientProvider client={queryClient}>
                 <Routes>
-                    
                     <Route path="/login" element={<Login />} />
                     <Route element={<HomeLayout />}>
                         <Route index element={<HomePage />} />
                         <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/i/:id" element={<IdeaDetail />} />
                     </Route>
                     <Route path="management/*" element={<ManagementRoutes />} />
 
