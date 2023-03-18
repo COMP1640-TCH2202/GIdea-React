@@ -1,0 +1,89 @@
+.ideaContainer {
+    min-width: 640px;
+    border-radius: 4px;
+    border: .5px #ccc solid;
+    padding-left: 40px;
+    background-color: #fff;
+    margin: 16px 0;
+    position: relative;
+    &:hover {
+        cursor: pointer;
+        border-color: #000;
+    }
+}
+.ideaContent {
+    margin-top: 16px;
+    .publishedTime {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: flex-start;
+        margin: 0 8px 8px;
+        position: relative;
+        color: #787C7E;
+    }
+}
+.titleSection {
+    margin: 0 8px;
+}
+.ideaTitle {
+    font-size: 18px;
+}
+
+.ideaDetail {
+    overflow: hidden;
+    padding: 5px 8px 10px;
+}
+
+.voteSection {
+    position: absolute;
+    font-size: 24px;
+    left: 0;
+    top: 0;
+    .voteNumber {
+        font-size: 16px;
+        font-weight: 700;
+    }
+    .downvote, .upvote {
+        color: #ced3d0;
+    }
+}
+
+.ideaBtn {
+    border: none;
+    background-color: transparent;
+    color: #929597;
+    font-weight: 700;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    padding: 8px;
+    box-sizing: border-box;
+    
+}
+
+.cutoff-text {
+    --max-lines: 3;
+    --line-height: 1.4;
+
+    height: calc(var(--max-lines) * 1em * var(--line-height));
+    line-height: var(--line-height);
+    overflow: hidden;
+    position: relative;
+}
+
+.cutoff-text::before {
+    content: "";
+    position: absolute;
+    height: calc(1em * var(--line-height));
+    width: 100%;
+    bottom: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, white);
+}
+
+.not-allowed-pointer {
+    cursor: not-allowed;
+}
