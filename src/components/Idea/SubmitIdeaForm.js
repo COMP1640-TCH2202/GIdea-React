@@ -61,10 +61,6 @@ const SubmitIdeaForm = () => {
     };
     return (
         <>
-            <div className="p-3 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3">
-                All submissions are currently posted by user with id 6 because
-                authentication is temporary disabled.
-            </div>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className="my-2" controlId="groupTitle">
                     <Controller
