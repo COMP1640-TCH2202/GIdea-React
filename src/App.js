@@ -60,16 +60,7 @@ function App() {
 
             <QueryClientProvider client={queryClient}>
                 <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route element={<HomeLayout />}>
-                        <Route index element={<HomePage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/i/:id" element={<IdeaDetail />} />
-                    </Route>
-                    <Route path="management/*" element={<ManagementRoutes />} />
-
-                    {/* Comment out to disable authentication process */}
-                    {/* <Route element={<PublicRoutes />}>
+                    <Route element={<PublicRoutes />}>
                         <Route path="/login" element={<Login />} />
                     </Route>
 
@@ -77,15 +68,16 @@ function App() {
                         <Route element={<HomeLayout />}>
                             <Route index element={<HomePage />} />
                             <Route path="/profile" element={<ProfilePage />} />
+                            <Route path="/i/:id" element={<IdeaDetail />} />
                         </Route>
                         <Route
                             path="management/*"
                             element={<ManagementRoutes />}
                         />
-                    </Route> */}
+                    </Route>
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
-                <ReactQueryDevtools initialIsOpen />
+                <ReactQueryDevtools />
             </QueryClientProvider>
         </>
     );

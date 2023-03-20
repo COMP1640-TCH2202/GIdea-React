@@ -7,11 +7,10 @@ const ProtectedRoutes = ({ allowedRoles }) => {
     const currentUser = getCurrentUser();
 
     return allowedRoles?.includes(currentUser?.role) ? (
-            <Outlet />
-        ) : (
-            <Navigate to="/404" state={{ from: location }} replace />
-        );
-    
+        <Outlet />
+    ) : (
+        <Navigate to="/404" state={{ from: location }} replace />
+    );
 };
 
 export default ProtectedRoutes;
