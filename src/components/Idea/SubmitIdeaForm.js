@@ -10,8 +10,7 @@ import { useAlert } from "../../contexts/AlertProvider";
 const schema = yup.object({
     title: yup
         .string()
-        .required()
-        .max(100, "Keep the title short! Max is 100 characters"),
+        .required(),
     content: yup.string().required(),
 });
 
@@ -19,16 +18,17 @@ const SubmitIdeaForm = () => {
     const { handleSuccess, handleFailure, setMessage, setPathLink } =
         useAlert();
 
-    const { control, handleSubmit, reset, trigger, formState } = useForm({
-        mode: "onBlur",
-        reValidateMode: "onChange",
-        resolver: yupResolver(schema),
-        defaultValues: {
-            title: "",
-            content: "",
-            anonymous: false,
-        },
-    });
+    const { control, handleSubmit, reset, trigger, formState } =
+        useForm({
+            mode: "onSubmit",
+            reValidateMode: "onChange",
+            resolver: yupResolver(schema),
+            defaultValues: {
+                title: "",
+                content: "",
+                anonymous: false,
+            },
+        });
 
     const queryClient = useQueryClient();
     const mutation = useMutation({
@@ -77,6 +77,7 @@ const SubmitIdeaForm = () => {
                                         if (error) trigger("title");
                                     }}
                                     isInvalid={invalid}
+                                    maxLength={200}
                                 />
                                 {error && (
                                     <Form.Control.Feedback type="invalid">
