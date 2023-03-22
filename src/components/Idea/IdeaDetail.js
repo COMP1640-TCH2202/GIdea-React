@@ -3,10 +3,63 @@ import { Col, Form, Row, Card, Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import CommentList from "../Comments/CommentList";
 import { Controller, useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { submitComment } from "../../services/IdeaService";
+import { useAlert } from "../../contexts/AlertProvider";
+
+const isUpdated = (created_at, updated_at) => {
+    let created_date = new Date(created_at);
+    let updated_date = new Date(updated_at);
+
+    return created_date === updated_date;
+};
 
 const IdeaDetail = () => {
-    const { hash } = useLocation();
+    const {
+        hash,
+        state: { data: idea_data, author },
+    } = useLocation();
+
     const commentInputEl = useRef();
+
+    const { handleSuccess, handleFailure, setMessage } = useAlert();
+
+    const { control, handleSubmit, reset } = useForm({
+        defaultValues: {
+            content: "",
+            anonymous: false,
+        },
+    });
+
+    const onSubmit = (data) => {
+        const request = {
+            content: data.content,
+            anonymous: data.anonymous,
+        };
+
+        return mutation
+            .mutateAsync(request)
+            .then((res) => res.data)
+            .catch((err) => {
+                if (err.response.status >= 400) {
+                    setMessage(err.response.data.message);
+                    handleFailure();
+                }
+            });
+    };
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: (comment) => submitComment(comment, idea_data.id),
+        onSuccess: (res) => {
+            queryClient.setQueryData(["comments", res.data.id], res.data);
+            queryClient.invalidateQueries(["comments"]);
+            setMessage(`Your comment has been submitted!`);
+            handleSuccess();
+            reset();
+        },
+    });
 
     useEffect(() => {
         if (hash === "#comments") {
@@ -18,65 +71,22 @@ const IdeaDetail = () => {
         }
     }, [hash]);
 
-    const { control, handleSubmit, reset } = useForm();
-
-    const onSubmit = (data) => {
-        console.log(data);
-        reset();
-    };
-
     return (
         <>
-            <Row className="mt-3 justify-content-center">
+            <Row className="my-3 justify-content-center">
                 <Col md={8}>
                     <Card>
                         <Card.Body>
-                            <Card.Title as="h3">Title</Card.Title>
+                            <Card.Title as="h3">{idea_data.title}</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">
-                                Author <span>&bull;</span> 20/12/2022 (Edited
-                                at: 10/3/2023)
+                                {author} <span>&bull;</span>{" "}
+                                {idea_data.created_at}
+                                {isUpdated(
+                                    idea_data.created_at,
+                                    idea_data.updated_at
+                                ) && `Edited at: ${idea_data.updated_at}`}
                             </Card.Subtitle>
-                            <Card.Text>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Aenean pellentesque lectus nec
-                                diam sodales fringilla. Maecenas luctus nisi
-                                nulla, nec viverra dolor dictum a. Integer vitae
-                                elementum sapien, quis suscipit tellus.
-                                Pellentesque faucibus odio at erat dapibus
-                                vestibulum. Nam elementum nisi ac libero
-                                pretium, at ultrices felis scelerisque. Nulla in
-                                sem elementum, gravida magna vel, rhoncus metus.
-                                Suspendisse pharetra quam quis varius dignissim.
-                                Orci varius natoque penatibus et magnis dis
-                                parturient montes, nascetur ridiculus mus.
-                                Vivamus nisl metus, vehicula sit amet convallis
-                                non, gravida vitae augue. Maecenas eleifend,
-                                sapien non finibus fermentum, nunc orci lobortis
-                                ante, sit amet convallis leo nibh at diam.
-                                Nullam interdum pharetra enim, non ornare urna
-                                pellentesque sed. Maecenas consequat commodo
-                                turpis, et interdum arcu egestas at. Integer
-                                aliquet tristique elit, non luctus est interdum
-                                eget. Nunc convallis tristique diam, at sodales
-                                orci auctor et. Pellentesque vel aliquam ante.
-                                Donec non consectetur tellus. Nulla convallis
-                                neque at urna commodo viverra. Aenean vestibulum
-                                dapibus magna vitae fringilla. Vivamus vulputate
-                                felis nec diam finibus faucibus. Fusce egestas
-                                nulla sit amet libero mattis, quis sollicitudin
-                                neque rutrum. In quis est at erat gravida
-                                tincidunt. Mauris in dignissim sem. Maecenas non
-                                porta libero. Etiam vitae velit consectetur,
-                                dapibus mauris eu, porta risus. Praesent mi
-                                nisl, ultrices blandit malesuada eget, faucibus
-                                et mi. Cras sed velit mi. Pellentesque volutpat
-                                tellus lacus, sit amet posuere mi accumsan sit
-                                amet. Phasellus id vehicula mi. Duis nisi elit,
-                                interdum ut aliquam in, aliquam a dui. Quisque
-                                pellentesque odio in velit maximus porttitor.
-                                Praesent vulputate ligula at sem vehicula
-                                porttitor.
-                            </Card.Text>
+                            <Card.Text>{idea_data.content}</Card.Text>
                             <hr />
                             <Card.Text className="mt-2">
                                 Document display here if has any
@@ -91,7 +101,7 @@ const IdeaDetail = () => {
                             >
                                 <Form.Group>
                                     <Controller
-                                        name="comment"
+                                        name="content"
                                         control={control}
                                         defaultValue=""
                                         rules={{ required: true }}
@@ -111,6 +121,25 @@ const IdeaDetail = () => {
                                         )}
                                     />
                                 </Form.Group>
+
+                                <Form.Group
+                                    className="my-1"
+                                    controlId="groupCheck"
+                                >
+                                    <Controller
+                                        name="anonymous"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Form.Check
+                                                type="checkbox"
+                                                label={"Comment anonymously"}
+                                                checked={!!field.value}
+                                                onChange={field.onChange}
+                                            />
+                                        )}
+                                    />
+                                </Form.Group>
+
                                 <Button
                                     className="mt-3"
                                     variant="outline-success"
@@ -120,7 +149,7 @@ const IdeaDetail = () => {
                                 </Button>
                             </Form>
                             <hr />
-                            <CommentList />
+                            <CommentList idea_id={idea_data.id} />
                         </Card.Body>
                     </Card>
                 </Col>
