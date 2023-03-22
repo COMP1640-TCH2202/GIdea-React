@@ -17,7 +17,6 @@ const Idea = ({ data }) => {
         content,
         comment_closed,
         created_at,
-        updated_at,
         user = null,
     } = data;
 
@@ -26,7 +25,8 @@ const Idea = ({ data }) => {
         : "Anonymous";
 
     const navigate = useNavigate();
-    const handleNavigate = () => navigate(`./i/${id}`);
+    const handleNavigate = () =>
+        navigate(`./i/${id}`, { state: { data: data, author: author_name } });
 
     return (
         <div className="ideaContainer" id={id}>
@@ -55,7 +55,9 @@ const Idea = ({ data }) => {
                 <Button
                     as={Link}
                     to={`./i/${id}#comments`}
-                    className="ideaBtn not-allowed-pointer"
+                    state={{ data: data, author: author_name }}
+                    className={`ideaBtn ${comment_closed && "not-allowed-pointer"}}`}
+                    disabled={comment_closed}
                 >
                     <BsFillChatFill
                         style={{ fontSize: "24px", paddingRight: "8px" }}
