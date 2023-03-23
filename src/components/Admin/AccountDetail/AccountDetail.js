@@ -42,18 +42,18 @@ const AccountDetail = () => {
     }
 
     const handleUpdate = async (data) => {
-        const request = {
-            firstName: data.first_name,
-            lastName: data.last_name,
-            email: data.email,
-            role: data.role,
-            department: data.department
-        }
-        accountService.updateUser(id, request)
-            .then((res) => {
+        // const request = {
+        //     firstName: data.first_name,
+        //     lastName: data.last_name,
+        //     email: data.email,
+        //     role: data.role,
+        //     department: data.department
+        // }
+        // accountService.updateUser(id, request)
+        //     .then((res) => {
                 
-            })
-        
+        //     })
+        setUpdateForm(!updateForm)
     }
     return (
         <div style={{ width: '70%' }} className='mx-auto'>
