@@ -1,0 +1,26 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/variables-dark";
+@import "../../../node_modules/bootstrap/scss/maps";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/root";
+
+.tableFixedHead {
+  overflow: scroll;
+  height: 80vh;
+}
+
+.tableFixedHead thead th { 
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.tableFixedHead thead th {
+  background: $gray-300 ;
+  color: $black;
+}
+
+.tableFixedHead tbody td {
+  position: relative;
+}

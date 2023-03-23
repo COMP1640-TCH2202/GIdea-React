@@ -1,28 +1,56 @@
 import React, { useEffect, useRef } from "react";
 import { Col, Form, Row, Card, Button } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { FaPen } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 import CommentList from "../Comments/CommentList";
 import { Controller, useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { submitComment } from "../../services/IdeaService";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getIdeaDetail, submitComment } from "../../services/IdeaService";
 import { useAlert } from "../../contexts/AlertProvider";
+import LoadingIndicator from "../Indicator/LoadingIndicator";
+import ErrorIndicator from "../Indicator/ErrorIndicator";
 
-const isUpdated = (created_at, updated_at) => {
-    let created_date = new Date(created_at);
-    let updated_date = new Date(updated_at);
-
-    return created_date === updated_date;
-};
+const isUpdated = (created_at, updated_at) =>
+    new Date(created_at) === new Date(updated_at);
 
 const IdeaDetail = () => {
-    const {
-        hash,
-        state: { data: idea_data, author },
-    } = useLocation();
+    const { hash, pathname } = useLocation();
+
+    const navigate = useNavigate();
 
     const commentInputEl = useRef();
 
     const { handleSuccess, handleFailure, setMessage } = useAlert();
+
+    const idea_id = pathname.split("/").pop();
+
+    const queryClient = useQueryClient();
+    const { isLoading, isError, error, data } = useQuery({
+        queryKey: ["idea_detail", idea_id],
+        initialData: () => {
+            queryClient
+                .getQueriesData(["ideas"])
+                ?.data?.data?.find((idea) => idea.id === parseInt(idea_id));
+            queryClient
+                .getQueriesData(["submissions"])
+                ?.data?.data?.find((sub) => sub.id === parseInt(idea_id));
+        },
+        queryFn: async () => {
+            const res = await getIdeaDetail(idea_id);
+            return res.data;
+        },
+    });
+
+    const mutation = useMutation({
+        mutationFn: (comment) => submitComment(comment, data.id),
+        onSuccess: (res) => {
+            queryClient.setQueryData(["comments", res.data.id], res.data);
+            queryClient.invalidateQueries(["comments"]);
+            setMessage(`Your comment has been submitted!`);
+            handleSuccess();
+            reset();
+        },
+    });
 
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
@@ -48,19 +76,6 @@ const IdeaDetail = () => {
             });
     };
 
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation({
-        mutationFn: (comment) => submitComment(comment, idea_data.id),
-        onSuccess: (res) => {
-            queryClient.setQueryData(["comments", res.data.id], res.data);
-            queryClient.invalidateQueries(["comments"]);
-            setMessage(`Your comment has been submitted!`);
-            handleSuccess();
-            reset();
-        },
-    });
-
     useEffect(() => {
         if (hash === "#comments") {
             commentInputEl.current?.scrollIntoView({
@@ -74,85 +89,110 @@ const IdeaDetail = () => {
     return (
         <>
             <Row className="my-3 justify-content-center">
-                <Col md={8}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title as="h3">{idea_data.title}</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">
-                                {author} <span>&bull;</span>{" "}
-                                {idea_data.created_at}
-                                {isUpdated(
-                                    idea_data.created_at,
-                                    idea_data.updated_at
-                                ) && `Edited at: ${idea_data.updated_at}`}
-                            </Card.Subtitle>
-                            <Card.Text>{idea_data.content}</Card.Text>
-                            <hr />
-                            <Card.Text className="mt-2">
-                                Document display here if has any
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <Card className="mt-3">
-                        <Card.Body>
-                            <Form
-                                className="mb-2"
-                                onSubmit={handleSubmit(onSubmit)}
-                            >
-                                <Form.Group>
-                                    <Controller
-                                        name="content"
-                                        control={control}
-                                        defaultValue=""
-                                        rules={{ required: true }}
-                                        render={({ field }) => (
-                                            <Form.Control
-                                                {...field}
-                                                as="textarea"
-                                                rows={4}
-                                                ref={commentInputEl}
-                                                placeholder="Comment your thought on this..."
-                                                style={{
-                                                    width: "100%",
-                                                    resize: "none",
-                                                }}
-                                                size="lg"
+                {isLoading ? (
+                    <LoadingIndicator />
+                ) : isError ? (
+                    <ErrorIndicator message={error.message} />
+                ) : (
+                    <Col md={8}>
+                        <Card>
+                            <Card.Body>
+                                <Card.Title
+                                    as="h5"
+                                    className="d-flex justify-content-between"
+                                >
+                                    <div>{data.title}</div>
+                                    <div>
+                                        {data.is_author && (
+                                            <FaPen
+                                                className="clickable-icon"
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/profile/submissions/${data.id}`
+                                                    )
+                                                }
                                             />
                                         )}
-                                    />
-                                </Form.Group>
-
-                                <Form.Group
-                                    className="my-1"
-                                    controlId="groupCheck"
+                                    </div>
+                                </Card.Title>
+                                <Card.Subtitle className="mb-2 text-muted">
+                                    {data?.user?.full_name ?? "Anonymous"}
+                                    <span>&bull;</span> {data.created_at}
+                                    {isUpdated(
+                                        data.created_at,
+                                        data.updated_at
+                                    ) && `Edited at: ${data.updated_at}`}
+                                </Card.Subtitle>
+                                <Card.Text>{data.content}</Card.Text>
+                                <hr />
+                                <Card.Text className="mt-2">
+                                    Document display here if has any
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                        <Card className="mt-3">
+                            <Card.Body>
+                                <Form
+                                    className="mb-2"
+                                    onSubmit={handleSubmit(onSubmit)}
                                 >
-                                    <Controller
-                                        name="anonymous"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <Form.Check
-                                                type="checkbox"
-                                                label={"Comment anonymously"}
-                                                checked={!!field.value}
-                                                onChange={field.onChange}
-                                            />
-                                        )}
-                                    />
-                                </Form.Group>
+                                    <Form.Group>
+                                        <Controller
+                                            name="content"
+                                            control={control}
+                                            defaultValue=""
+                                            rules={{ required: true }}
+                                            render={({ field }) => (
+                                                <Form.Control
+                                                    {...field}
+                                                    as="textarea"
+                                                    rows={4}
+                                                    ref={commentInputEl}
+                                                    placeholder="Comment your thought on this..."
+                                                    style={{
+                                                        width: "100%",
+                                                        resize: "none",
+                                                    }}
+                                                    size="lg"
+                                                />
+                                            )}
+                                        />
+                                    </Form.Group>
 
-                                <Button
-                                    className="mt-3"
-                                    variant="outline-success"
-                                    type="submit"
-                                >
-                                    Comment
-                                </Button>
-                            </Form>
-                            <hr />
-                            <CommentList idea_id={idea_data.id} />
-                        </Card.Body>
-                    </Card>
-                </Col>
+                                    <Form.Group
+                                        className="my-1"
+                                        controlId="groupCheck"
+                                    >
+                                        <Controller
+                                            name="anonymous"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Form.Check
+                                                    type="checkbox"
+                                                    label={
+                                                        "Comment anonymously"
+                                                    }
+                                                    checked={!!field.value}
+                                                    onChange={field.onChange}
+                                                />
+                                            )}
+                                        />
+                                    </Form.Group>
+
+                                    <Button
+                                        className="mt-3"
+                                        variant="outline-success"
+                                        type="submit"
+                                    >
+                                        Comment
+                                    </Button>
+                                </Form>
+                                <hr />
+                                <CommentList idea_id={data.id} />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
             </Row>
         </>
     );

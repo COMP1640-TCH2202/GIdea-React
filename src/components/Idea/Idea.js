@@ -18,6 +18,7 @@ const Idea = ({ data }) => {
         comment_closed,
         created_at,
         user = null,
+        is_author = false,
     } = data;
 
     const author_name = user
@@ -29,7 +30,7 @@ const Idea = ({ data }) => {
         navigate(`./i/${id}`, { state: { data: data, author: author_name } });
 
     return (
-        <div className="ideaContainer" id={id}>
+        <div className={`ideaContainer ${is_author && "owned-idea"}`} id={id}>
             <div className="voteSection">
                 <div className="upvote">
                     <GoArrowUp />
@@ -56,7 +57,9 @@ const Idea = ({ data }) => {
                     as={Link}
                     to={`./i/${id}#comments`}
                     state={{ data: data, author: author_name }}
-                    className={`ideaBtn ${comment_closed && "not-allowed-pointer"}}`}
+                    className={`ideaBtn ${
+                        comment_closed && "not-allowed-pointer"
+                    }}`}
                     disabled={comment_closed}
                 >
                     <BsFillChatFill

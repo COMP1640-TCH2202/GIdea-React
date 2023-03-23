@@ -17,10 +17,17 @@ const ManagementRoutes = () => {
     return (
         <Routes>
             <Route element={<ManagementLayout />}>
-                <Route element={<ProtectedRoutes allowedRoles={["manager", "admin"]} />}>
+                <Route
+                    element={
+                        <ProtectedRoutes allowedRoles={["manager", "admin"]} />
+                    }
+                >
                     <Route index element={<Dashboard />} />
-                    <Route path="categories/*" element={<CategoryManagement />} />
-                    <Route path="ideas/*" element={<IdeaManagement />}/>
+                    <Route
+                        path="categories/*"
+                        element={<CategoryManagement />}
+                    />
+                    <Route path="ideas/*" element={<IdeaManagement />} />
                     <Route
                         path="/*"
                         element={
@@ -36,15 +43,21 @@ const ManagementRoutes = () => {
                 <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
                     <Route index element={<Dashboard />} />
 
-                {/* Keep below line */}
-                {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
-                <Route path="accounts">
+                    {/* Keep below line */}
+                    {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
+                    <Route path="accounts">
                         <Route index element={<ManageAccount />} />
-                        <Route path="create-account" element={<CreateAccount />} />
+                        <Route
+                            path="create-account"
+                            element={<CreateAccount />}
+                        />
                         <Route path=":id" element={<AccountDetail />} />
                     </Route>
-                    
-                    <Route path="departments/*" element={<DepartmentManagement />} />
+
+                    <Route
+                        path="departments/*"
+                        element={<DepartmentManagement />}
+                    />
                     <Route path="events/*" element={<EventManagement />} />
                     <Route
                         path="/*"
