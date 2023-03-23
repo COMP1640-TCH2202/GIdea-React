@@ -24,6 +24,9 @@
     padding: 32px 64px;
     border-radius: 20px;
     background-color: transparent;
+
+    
+    
     .register_heading {
         line-height: 1;
         font-size: 64px;
@@ -46,6 +49,8 @@
             color:#fff;
         }
     }
+
+
     .check_container {
         text-align: left;
     }
@@ -58,6 +63,26 @@
         border-radius: 10px;
         &:hover {
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+.form_small {
+    display: none;
+}
+@media (max-width: 992px) {
+    .form_small {
+        display: block;
+    }
+    .form_normal {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .form_container {
+        padding: 0;
+        .Button {
+            width: 100%;
         }
     }
 }
