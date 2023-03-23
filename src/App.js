@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { Routes, Route, Link } from "react-router-dom";
 import { Fragment } from "react";
 import Login from "./components/Login/Login";
@@ -11,7 +11,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
 import ManagementRoutes from "./routes/ManagementRoutes";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/PersonalPage/ProfilePage";
+import SubmissionPage from "./pages/PersonalPage/SubmissionPage";
 import { useAlert } from "./contexts/AlertProvider";
 import { ToastContainer, Toast } from "react-bootstrap";
 import IdeaDetail from "./components/Idea/IdeaDetail";
@@ -67,7 +68,10 @@ function App() {
                     <Route element={<PrivateRoutes />}>
                         <Route element={<HomeLayout />}>
                             <Route index element={<HomePage />} />
-                            <Route path="/profile" element={<ProfilePage />} />
+                            <Route path="/profile">
+                                <Route index element={<ProfilePage />} />
+                                <Route path="submissions/:id" element={<SubmissionPage />} />
+                            </Route>
                             <Route path="/i/:id" element={<IdeaDetail />} />
                         </Route>
                         <Route

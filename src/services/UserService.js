@@ -1,14 +1,6 @@
 import api from "../utils/api";
 
 export const login = async (request) => {
-    // let data;
-    // await api.post("/login", request).then((res) => {
-    //     data = res;
-    // }).catch((err) => {
-    //     return err;
-    // });
-    // return data;
-
     await api.get("/sanctum/csrf-cookie");
     // return api.post("/api/login", request);
 
@@ -24,3 +16,7 @@ export const logout = async () => {
     // return api.post("/api/logout");
     return api.post("/logout");
 };
+
+export const getUserSubmission = async () => {
+    return api.get("/api/ideas/submissions");
+}
