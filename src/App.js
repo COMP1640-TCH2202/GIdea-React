@@ -16,6 +16,7 @@ import SubmissionPage from "./pages/PersonalPage/SubmissionPage";
 import { useAlert } from "./contexts/AlertProvider";
 import { ToastContainer, Toast } from "react-bootstrap";
 import IdeaDetail from "./components/Idea/IdeaDetail";
+import TermsPage from "./pages/TermsPage";
 
 const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
@@ -68,9 +69,13 @@ function App() {
                     <Route element={<PrivateRoutes />}>
                         <Route element={<HomeLayout />}>
                             <Route index element={<HomePage />} />
+                            <Route path="/tnc" element={<TermsPage />} />
                             <Route path="/profile">
                                 <Route index element={<ProfilePage />} />
-                                <Route path="submissions/:id" element={<SubmissionPage />} />
+                                <Route
+                                    path="submissions/:id"
+                                    element={<SubmissionPage />}
+                                />
                             </Route>
                             <Route path="/i/:id" element={<IdeaDetail />} />
                         </Route>
