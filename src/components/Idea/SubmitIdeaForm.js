@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,29 +6,42 @@ import * as yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { submitIdea } from "../../services/IdeaService";
 import { useAlert } from "../../contexts/AlertProvider";
+import CategorySelection from "../Select/CategorySelection";
+import { Link } from "react-router-dom";
 
 const schema = yup.object({
-    title: yup
-        .string()
-        .required(),
+    title: yup.string().required(),
     content: yup.string().required(),
+    category: yup.string().required(),
+    confirm: yup.bool().oneOf([true]),
 });
 
 const SubmitIdeaForm = () => {
     const { handleSuccess, handleFailure, setMessage, setPathLink } =
         useAlert();
 
-    const { control, handleSubmit, reset, trigger, formState } =
-        useForm({
-            mode: "onSubmit",
-            reValidateMode: "onChange",
-            resolver: yupResolver(schema),
-            defaultValues: {
-                title: "",
-                content: "",
-                anonymous: false,
-            },
-        });
+    const categoryNameRef = useRef(null);
+
+    const {
+        register,
+        control,
+        handleSubmit,
+        reset,
+        trigger,
+        formState,
+        setValue,
+    } = useForm({
+        mode: "onSubmit",
+        reValidateMode: "onChange",
+        resolver: yupResolver(schema),
+        defaultValues: {
+            title: "",
+            content: "",
+            anonymous: false,
+            category: "",
+            confirm: false,
+        },
+    });
 
     const queryClient = useQueryClient();
     const mutation = useMutation({
@@ -39,6 +52,7 @@ const SubmitIdeaForm = () => {
             setMessage(`Your post has been submitted!`);
             setPathLink(`./profile/submissions/${res.data.id}`);
             handleSuccess();
+            categoryNameRef.current.innerHTML = "Choose Category";
             reset();
         },
     });
@@ -48,6 +62,7 @@ const SubmitIdeaForm = () => {
             title: data.title,
             content: data.content,
             anonymous: data.anonymous,
+            category_id: data.category,
         };
         return mutation
             .mutateAsync(request)
@@ -62,7 +77,7 @@ const SubmitIdeaForm = () => {
     return (
         <>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <Form.Group className="my-2" controlId="groupTitle">
+                <Form.Group className="my-3" controlId="groupTitle">
                     <Controller
                         name="title"
                         control={control}
@@ -89,7 +104,7 @@ const SubmitIdeaForm = () => {
                     />
                 </Form.Group>
 
-                <Form.Group className="my-2" controlId="groupContent">
+                <Form.Group className="my-3" controlId="groupContent">
                     <Controller
                         name="content"
                         control={control}
@@ -107,29 +122,69 @@ const SubmitIdeaForm = () => {
                     />
                 </Form.Group>
 
-                <Form.Group className="my-1" controlId="groupCheck">
-                    <Controller
-                        name="anonymous"
-                        control={control}
-                        render={({ field }) => (
-                            <Form.Check
-                                type="checkbox"
-                                label={"Submit anonymously"}
-                                checked={!!field.value}
-                                onChange={field.onChange}
-                            />
-                        )}
+                <Form.Group className="my-3" controlId="groupCategory">
+                    <CategorySelection
+                        register={register}
+                        setValue={setValue}
+                        categoryNameRef={categoryNameRef}
                     />
+                    {formState.errors && (
+                        <Form.Control.Feedback type="invalid">
+                            {formState.errors?.category}
+                        </Form.Control.Feedback>
+                    )}
                 </Form.Group>
 
-                <Button
-                    className="mt-3"
-                    variant="success"
-                    type="submit"
-                    disabled={!formState.isValid || formState.isSubmitting}
+                <Form.Group
+                    className="my-3 d-flex align-items-center justify-content-between"
+                    controlId="groupCheck"
                 >
-                    {formState.isSubmitting ? "Submitting..." : "Submit"}
-                </Button>
+                    <Controller
+                        name="confirm"
+                        control={control}
+                        render={({ field }) => (
+                            <Form.Check>
+                                <Form.Check.Input
+                                    type="checkbox"
+                                    checked={!!field.value}
+                                    onChange={field.onChange}
+                                />
+                                <Form.Check.Label>
+                                    By submitting idea, you agree to our{" "}
+                                    <Link to="/tnc">Terms & Conditions</Link>
+                                </Form.Check.Label>
+                            </Form.Check>
+                        )}
+                    />
+
+                    <div className="d-flex align-items-center justify-content-end">
+                        <Controller
+                            name="anonymous"
+                            control={control}
+                            render={({ field }) => (
+                                <Form.Check
+                                    type="switch"
+                                    label={"Anonymous"}
+                                    reverse
+                                    checked={!!field.value}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        />
+                        <Button
+                            className="ms-3"
+                            variant="success"
+                            type="submit"
+                            disabled={
+                                !formState.isValid || formState.isSubmitting
+                            }
+                        >
+                            {formState.isSubmitting
+                                ? "Submitting..."
+                                : "Submit"}
+                        </Button>
+                    </div>
+                </Form.Group>
             </Form>
         </>
     );

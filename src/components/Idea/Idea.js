@@ -128,7 +128,7 @@ const Idea = ({ data }) => {
                                     navigate("/404");
                                 }}
                             >
-                                {category.name}
+                                category: {category.name}
                             </Badge>
                         </Card.Subtitle>
                         <Card.Text className="cutoff-text">{content}</Card.Text>
