@@ -56,17 +56,23 @@
 }
 
 .voteSection {
-    position: absolute;
-    font-size: 24px;
-    left: 0;
-    top: 0;
+    font-size: 32px;
     .voteNumber {
         font-size: 16px;
         font-weight: 700;
     }
-    .downvote, .upvote {
+    .voteArrow {
+        display: flex;
         color: #ced3d0;
     }
+}
+
+.upvotedArrow {
+    color: $teal-500
+}
+
+.downvotedArrow {
+    color: $red-500
 }
 
 .ideaBtn {
