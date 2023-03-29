@@ -19,7 +19,7 @@ import IdeaDetail from "./components/Idea/IdeaDetail";
 import TermsPage from "./pages/TermsPage";
 
 const queryClient = new QueryClient({
-    defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
+    defaultOptions: { queries: { staleTime: 1000 * 15 } },
 });
 
 function App() {

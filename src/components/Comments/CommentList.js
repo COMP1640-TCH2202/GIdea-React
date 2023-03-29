@@ -28,7 +28,7 @@ const Comment = ({ data }) => {
     const [replyOpen, setReplyOpen] = useState(false);
     const replyCommentEl = useRef();
     const author = data.user
-        ? `${data.user.first_name} ${data.user.first_name}`
+        ? `${data.user.last_name} ${data.user.first_name}`
         : "Anonymous";
 
     const { handleSuccess, handleFailure, setMessage } = useAlert();
