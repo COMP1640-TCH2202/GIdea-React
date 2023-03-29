@@ -4,10 +4,12 @@ import { getUserSubmission } from "../../services/UserService";
 import LoadingIndicator from "../Indicator/LoadingIndicator";
 import ErrorIndicator from "../Indicator/ErrorIndicator";
 import { useFlexLayout, useSortBy, useTable } from "react-table";
-import { FaSort, FaSortUp, FaSortDown, FaPen, FaTrash } from "react-icons/fa";
+import { FaSort, FaSortUp, FaSortDown, FaPen } from "react-icons/fa";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styles from "./SubmissionTable.module.scss";
+import TrashButton from "../Buttons/TrashButton";
+import { deleteIdea } from "../../services/IdeaService";
 
 const SubmissionTable = () => {
     const {
@@ -58,17 +60,20 @@ const SubmissionTable = () => {
                             to={`./submissions/${row.original.id}`}
                             size="sm"
                             variant="outline-primary"
-                            className="mx-1"
+                            className="mx-2"
                         >
                             <FaPen />
                         </Button>
-                        <Button
+                        <TrashButton
                             size="sm"
-                            variant="outline-danger"
-                            className="mx-1"
-                        >
-                            <FaTrash />
-                        </Button>
+                            id={row.original.id}
+                            resourceType={"submission"}
+                            message={
+                                "Please be aware that deleting this idea will also delete all comments and any associated documents!"
+                            }
+                            invalidateQueries={["submissions"]}
+                            deleteFn={deleteIdea}
+                        />
                     </div>
                 ),
                 // maxWidth: 1,

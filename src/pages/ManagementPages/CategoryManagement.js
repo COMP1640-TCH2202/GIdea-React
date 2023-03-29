@@ -2,7 +2,10 @@ import React, { useMemo, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { FaFilter } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "../../services/CategoryService";
+import {
+    deleteCategory,
+    getAllCategories,
+} from "../../services/CategoryService";
 import CategoryTable from "../../components/Tables/DataTable";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CategoryCanvas from "../../components/Canvas/CategoryCanvas";
@@ -41,8 +44,12 @@ const CategoryManagement = () => {
                     <div onClick={(e) => e.stopPropagation()}>
                         <TrashButton
                             id={row.original.id}
-                            resourceName={row.original.name}
                             resourceType={"categories"}
+                            message={
+                                "You are about to delete this category, please confirm..."
+                            }
+                            invalidateQueries={["categories"]}
+                            deleteFn={deleteCategory}
                         />
                     </div>
                 ),

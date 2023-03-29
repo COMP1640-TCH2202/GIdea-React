@@ -29,5 +29,9 @@ export const updateIdea = async (request, idea_id) => {
 };
 
 export const voteIdea = async (request, idea_id) => {
-    return api.put(`/api/ideas/${idea_id}/vote`, request)
-}
+    return api.put(`/api/ideas/${idea_id}/vote`, request);
+};
+
+export const deleteIdea = async (idea_id) => {
+    return api.delete(`/api/ideas/${idea_id}`);
+};
