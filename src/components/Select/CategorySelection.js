@@ -53,15 +53,25 @@ const CategorySelection = ({
                         <ErrorIndicator message={error.message} />
                     ) : (
                         <>
-                            {categories.data.map((category) => (
-                                <Dropdown.Item
-                                    key={category.id}
-                                    eventKey={category.id}
-                                    value={category.name}
-                                >
-                                    {category.name}
-                                </Dropdown.Item>
-                            ))}
+                            {categories.data
+                                .filter(
+                                    (category) =>
+                                        !searchTerm ||
+                                        category.name
+                                            .toLowerCase()
+                                            .startsWith(
+                                                searchTerm.toLowerCase()
+                                            )
+                                )
+                                .map((filteredCategory) => (
+                                    <Dropdown.Item
+                                        key={filteredCategory.id}
+                                        eventKey={filteredCategory.id}
+                                        value={filteredCategory.name}
+                                    >
+                                        {filteredCategory.name}
+                                    </Dropdown.Item>
+                                ))}
                         </>
                     )}
                 </Dropdown.Menu>

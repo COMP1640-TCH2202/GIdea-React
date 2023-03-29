@@ -47,3 +47,7 @@ export const timesAgoFormatter = (date) => {
 
     return formatter.format(secondsAgo * -1, 'second')
 };
+
+export const isSameStrings = (strA, strB) => {
+    return strA.localeCompare(strB, 'en', { sensitivity: 'base' }) === 0
+}
