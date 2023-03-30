@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Container, Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,12 +7,14 @@ import { clearUser } from "../utils/common";
 
 const Header = ({ user }) => {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const handleLogout = async (e) => {
         e.preventDefault();
         try {
             const response = await logout();
             if (response.status < 400) {
                 clearUser();
+                queryClient.clear();
                 navigate("/login");
             }
         } catch (error) {

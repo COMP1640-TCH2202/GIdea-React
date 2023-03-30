@@ -1,3 +1,10 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/variables-dark";
+@import "../../../node_modules/bootstrap/scss/maps";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/root";
+
 .ideaContainer {
     min-width: 640px;
     border-radius: 4px;
@@ -6,14 +13,22 @@
     background-color: #fff;
     margin: 16px 0;
     position: relative;
-    cursor: pointer;
     &:hover {
+        cursor: pointer;
         border-color: #000;
     }
 }
+
+.owned-idea {
+    border-radius: 4px;
+    border: 0.5px $teal-400 solid;
+    &:hover {
+        border: 0.5px $yellow-500 solid;
+    }
+}
+
 .ideaContent {
     margin-top: 16px;
-    cursor: default;
     .publishedTime {
         font-size: 12px;
         font-weight: 400;
@@ -26,9 +41,11 @@
         color: #787C7E;
     }
 }
+
 .titleSection {
     margin: 0 8px;
 }
+
 .ideaTitle {
     font-size: 18px;
 }
@@ -39,18 +56,23 @@
 }
 
 .voteSection {
-    position: absolute;
-    font-size: 24px;
-    left: 0;
-    top: 0;
+    font-size: 32px;
     .voteNumber {
         font-size: 16px;
         font-weight: 700;
     }
-    .downvote, .upvote {
-        cursor: pointer;
+    .voteArrow {
+        display: flex;
         color: #ced3d0;
     }
+}
+
+.upvotedArrow {
+    color: $teal-500
+}
+
+.downvotedArrow {
+    color: $red-500
 }
 
 .ideaBtn {
@@ -64,4 +86,32 @@
     padding: 8px;
     box-sizing: border-box;
     
+}
+
+.cutoff-text {
+    --max-lines: 3;
+    --line-height: 1.4;
+
+    height: calc(var(--max-lines) * 1em * var(--line-height));
+    line-height: var(--line-height);
+    overflow: hidden;
+    position: relative;
+}
+
+.cutoff-text::before {
+    content: "";
+    position: absolute;
+    height: calc(1em * var(--line-height));
+    width: 100%;
+    bottom: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, white);
+}
+
+.not-allowed-pointer {
+    cursor: not-allowed;
+}
+
+.overlay-scrollbar {
+    overflow-y: scroll;
 }

@@ -10,6 +10,7 @@ export const AlertProvider = ({ children }) => {
     const [openSuccess, setOpenSuccess] = useState(false);
     const [openFailure, setOpenFailure] = useState(false);
     const [message, setMessage] = useState("");
+    const [pathLink, setPathLink] = useState("")
 
     const handleSuccess = () => {
         setOpenSuccess(true);
@@ -30,9 +31,11 @@ export const AlertProvider = ({ children }) => {
                 openSuccess,
                 openFailure,
                 message,
+                pathLink,
                 handleSuccess,
                 handleFailure,
                 setMessage,
+                setPathLink,
                 close,
             }}
         >

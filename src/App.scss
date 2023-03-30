@@ -1,0 +1,18 @@
+.App {
+    text-align: center;
+  }
+  
+.clickable-icon {
+  opacity: 0.5;
+  font-size: 1rem;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+  .excludeClickable {
+    cursor: auto;
+  }
+}

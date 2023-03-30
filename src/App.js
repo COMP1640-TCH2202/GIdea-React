@@ -1,5 +1,5 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import "./App.scss";
+import { Routes, Route, Link } from "react-router-dom";
 import { Fragment } from "react";
 import Login from "./components/Login/Login";
 import HomeLayout from "./layouts/HomeLayout";
@@ -10,17 +10,19 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
 import ManagementRoutes from "./routes/ManagementRoutes";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/PersonalPage/ProfilePage";
+import SubmissionPage from "./pages/PersonalPage/SubmissionPage";
 import { useAlert } from "./contexts/AlertProvider";
 import { ToastContainer, Toast } from "react-bootstrap";
-import CreateAccount from "./components/Admin/CreateAccount/CreateAccount";
+import IdeaDetail from "./components/Idea/IdeaDetail";
+import TermsPage from "./pages/TermsPage";
 
 const queryClient = new QueryClient({
-    defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
+    defaultOptions: { queries: { staleTime: 1000 * 15 } },
 });
 
 function App() {
-    const { openSuccess, openFailure, message, close } = useAlert();
+    const { openSuccess, openFailure, message, close, pathLink } = useAlert();
 
     return (
         <>
@@ -32,7 +34,19 @@ function App() {
                     onClose={close}
                     className="align-items-center text-bg-success border-0"
                 >
-                    <Toast.Body>{message}</Toast.Body>
+                    <Toast.Body>
+                        {message}{" "}
+                        {pathLink && (
+                            <Link
+                                to={pathLink}
+                                style={{
+                                    color: "inherit",
+                                }}
+                            >
+                                View your submission
+                            </Link>
+                        )}
+                    </Toast.Body>
                 </Toast>
                 <Toast
                     show={openFailure}
@@ -47,34 +61,31 @@ function App() {
 
             <QueryClientProvider client={queryClient}>
                 <Routes>
-                    
-                    <Route path="/login" element={<Login />} />
-                    <Route path="create-account" element={<CreateAccount/>} />
-                    <Route element={<HomeLayout />}>
-                        <Route index element={<HomePage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                    </Route>
-                    <Route path="management/*" element={<ManagementRoutes />} />
-
-
-                    {/* Comment out to disable authentication process */}
-                    {/* <Route element={<PublicRoutes />}>
+                    <Route element={<PublicRoutes />}>
                         <Route path="/login" element={<Login />} />
                     </Route>
 
                     <Route element={<PrivateRoutes />}>
                         <Route element={<HomeLayout />}>
                             <Route index element={<HomePage />} />
-                            <Route path="/profile" element={<ProfilePage />} />
+                            <Route path="/tnc" element={<TermsPage />} />
+                            <Route path="/profile">
+                                <Route index element={<ProfilePage />} />
+                                <Route
+                                    path="submissions/:id"
+                                    element={<SubmissionPage />}
+                                />
+                            </Route>
+                            <Route path="/i/:id" element={<IdeaDetail />} />
                         </Route>
                         <Route
                             path="management/*"
                             element={<ManagementRoutes />}
                         />
-                    </Route> */}
+                    </Route>
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
-                <ReactQueryDevtools initialIsOpen />
+                <ReactQueryDevtools />
             </QueryClientProvider>
         </>
     );

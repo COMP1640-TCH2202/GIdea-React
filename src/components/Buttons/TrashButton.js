@@ -13,6 +13,7 @@ const TrashButton = (props) => {
                 variant="outline-danger"
                 className="mx-2"
                 onClick={handleShowModal}
+                size={props.size}
             >
                 <FaTrash />
             </Button>
