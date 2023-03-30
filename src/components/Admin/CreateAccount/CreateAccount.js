@@ -31,7 +31,7 @@ const CreateAccount = () => {
     }
     const validateAge = (e) => {
         const currentYear = new Date().getFullYear();
-        const year = e.target.value.split("/")[2];
+        const year = e.target.value.split("-")[0];
         const age = currentYear - year;
         if (age < 18) setError("Staff must be above 18 years old");
     }
