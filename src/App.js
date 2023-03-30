@@ -2,7 +2,6 @@ import "./App.scss";
 import { Routes, Route, Link } from "react-router-dom";
 import { Fragment } from "react";
 import Login from "./components/Login/Login";
-
 import HomeLayout from "./layouts/HomeLayout";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
