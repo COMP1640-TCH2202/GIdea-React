@@ -2,7 +2,6 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { Fragment } from "react";
 import Login from "./components/Login/Login";
-
 import HomeLayout from "./layouts/HomeLayout";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -14,6 +13,7 @@ import ManagementRoutes from "./routes/ManagementRoutes";
 import ProfilePage from "./pages/ProfilePage";
 import { useAlert } from "./contexts/AlertProvider";
 import { ToastContainer, Toast } from "react-bootstrap";
+import CreateAccount from "./components/Admin/CreateAccount/CreateAccount";
 
 const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
@@ -49,11 +49,13 @@ function App() {
                 <Routes>
                     
                     <Route path="/login" element={<Login />} />
+                    <Route path="create-account" element={<CreateAccount/>} />
                     <Route element={<HomeLayout />}>
                         <Route index element={<HomePage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                     </Route>
                     <Route path="management/*" element={<ManagementRoutes />} />
+
 
                     {/* Comment out to disable authentication process */}
                     {/* <Route element={<PublicRoutes />}>
