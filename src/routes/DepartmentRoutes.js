@@ -14,22 +14,50 @@ import AccountDetail from "../components/Admin/AccountDetail/AccountDetail";
 import ManageDepartment from "../components/Department/ManageDepartment/ManageDepartment";
 import DepartmentDetail from "../components/Department/DepartmentDetail/DepartmentDetail";
 import CreateDepartment from "../components/Department/CreateDepartment/CreateDepartment";
+
+
 const ManagementRoutes = () => {
     const location = useLocation();
     return (
         <Routes>
             <Route element={<ManagementLayout />}>
+                {/* Temporary use to bypass authentication process */}
+                <Route index element={<Dashboard />} />
+                <Route path="categories/*" element={<CategoryManagement />} />
+                <Route path="ideas/*" element={<IdeaManagement />} />
+                <Route path="accounts">
+                        <Route index element={<ManageAccount />} />
+                        <Route path="create-account" element={<CreateAccount />} />
+                        <Route path=":id" element={<AccountDetail />} />
+                    </Route>
+                    <Route path="departments">
+                        <Route index element={<ManageDepartment />} />
+                        <Route path="create-department" element={<CreateDepartment />} />
+                        <Route path=":id" element={<DepartmentDetail />} />
+                    </Route>
+                {/* <Route
+                    path="departments/*"
+                    element={<DepartmentManagement />}
+                /> */}
+                <Route path="events/*" element={<EventManagement />} />
                 <Route
+                    path="/*"
                     element={
-                        <ProtectedRoutes allowedRoles={["manager", "admin"]} />
+                        <Navigate
+                            to="/404"
+                            state={{ from: location }}
+                            replace
+                        />
                     }
-                >
+                />
+
+                {/* <Route element={<ProtectedRoutes allowedRoles={["manager", "admin"]} />}>
                     <Route index element={<Dashboard />} />
                     <Route
                         path="categories/*"
                         element={<CategoryManagement />}
                     />
-                    <Route path="ideas/*" element={<IdeaManagement />} />
+                    <Route path="ideas/*" element={<IdeaManagement />}/>
                     <Route
                         path="/*"
                         element={
@@ -40,30 +68,20 @@ const ManagementRoutes = () => {
                             />
                         }
                     />
-                </Route>
+                </Route> */}
 
-                <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
-                    <Route index element={<Dashboard />} />
+                {/* <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
+                    <Route index element={<Dashboard />} /> */}
 
-                    {/* Keep below line */}
-                    {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
-                    <Route path="accounts">
+                {/* Keep below line */}
+                {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
+                {/* <Route path="accounts">
                         <Route index element={<ManageAccount />} />
-                        <Route
-                            path="create-account"
-                            element={<CreateAccount />}
-                        />
+                        <Route path="create-account" element={<CreateAccount />} />
                         <Route path=":id" element={<AccountDetail />} />
                     </Route>
-                    <Route path="departments">
-                        <Route index element={<ManageDepartment />} />
-                        <Route path="create-department" element={<CreateDepartment />} />
-                        <Route path=":id" element={<DepartmentDetail />} />
-                    </Route>
-                    {/* <Route
-                        path="departments/*"
-                        element={<DepartmentManagement />}
-                    /> */}
+                    
+                    <Route path="departments/*" element={<DepartmentManagement />} />
                     <Route path="events/*" element={<EventManagement />} />
                     <Route
                         path="/*"
@@ -75,7 +93,7 @@ const ManagementRoutes = () => {
                             />
                         }
                     />
-                </Route>
+                </Route> */}
             </Route>
         </Routes>
     );
