@@ -58,17 +58,20 @@ const MainPage = () => {
                         />
 
                         {isFetching && (
-                            <div className="d-flex justify-content-center align-items-center blur-overlay">
-                                <Spinner
-                                    animation="border"
-                                    role="status"
-                                    variant="secondary"
-                                >
-                                    <span className="visually-hidden">
-                                        Loading page...
-                                    </span>
-                                </Spinner>
-                            </div>
+                            <Spinner
+                                animation="border"
+                                role="status"
+                                variant="secondary"
+                                style={{
+                                    position: "fixed",
+                                    bottom: 20,
+                                    left: 20,
+                                }}
+                            >
+                                <span className="visually-hidden">
+                                    Loading page...
+                                </span>
+                            </Spinner>
                         )}
                     </>
                 )}

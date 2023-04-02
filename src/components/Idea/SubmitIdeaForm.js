@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { submitIdea } from "../../services/IdeaService";
+import { submitIdea, uploadDocuments } from "../../services/IdeaService";
 import { useAlert } from "../../contexts/AlertProvider";
 import CategorySelection from "../Select/CategorySelection";
 import { Link } from "react-router-dom";
@@ -13,12 +13,23 @@ const schema = yup.object({
     title: yup.string().required(),
     content: yup.string().required(),
     category: yup.string().required(),
+    files: yup
+        .mixed()
+        .notRequired()
+        .test("fileSize", "The file is too large", (value) =>
+            value ? value[0].size <= 5000000 : true
+        ),
     confirm: yup.bool().oneOf([true]),
 });
 
 const SubmitIdeaForm = () => {
-    const { handleSuccess, handleFailure, setMessage, setPathLink } =
-        useAlert();
+    const {
+        handleSuccess,
+        handleFailure,
+        handleWarning,
+        setMessage,
+        setPathLink,
+    } = useAlert();
 
     const categoryNameRef = useRef(null);
 
@@ -43,21 +54,23 @@ const SubmitIdeaForm = () => {
         },
     });
 
+    const clearFields = () => {
+        reset();
+        categoryNameRef.current.innerHTML = "Choose Category";
+    };
+
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: (idea) => submitIdea(idea),
         onSuccess: (res) => {
             queryClient.setQueryData(["ideas", res.data.id], res.data);
             queryClient.invalidateQueries(["ideas"]);
-            setMessage(`Your post has been submitted!`);
-            setPathLink(`./profile/submissions/${res.data.id}`);
-            handleSuccess();
-            categoryNameRef.current.innerHTML = "Choose Category";
-            reset();
         },
     });
 
-    const onSubmit = (data) => {
+    const onSubmit = (data, e) => {
+        e.preventDefault();
+
         const request = {
             title: data.title,
             content: data.content,
@@ -66,7 +79,25 @@ const SubmitIdeaForm = () => {
         };
         return mutation
             .mutateAsync(request)
-            .then((res) => res.data)
+            .then(async (res) => {
+                if (data.files) {
+                    try {
+                        const formData = new FormData();
+                        formData.append("files", data.files[0]);
+                        await uploadDocuments(formData, res.data.id);
+                    } catch (error) {
+                        setMessage(
+                            `We couldn't upload your documents at the moment, please try again later`
+                        );
+                        handleWarning();
+                    }
+                }
+                setMessage(`Your post has been submitted!`);
+                setPathLink(`./profile/submissions/${res.data.id}`);
+                handleSuccess();
+                clearFields();
+                return res.data;
+            })
             .catch((err) => {
                 if (err.response.status === 400) {
                     setMessage(err.response.data.message);
@@ -122,17 +153,50 @@ const SubmitIdeaForm = () => {
                     />
                 </Form.Group>
 
-                <Form.Group className="my-3" controlId="groupCategory">
-                    <CategorySelection
-                        register={register}
-                        setValue={setValue}
-                        categoryNameRef={categoryNameRef}
-                    />
-                    {formState.errors && (
-                        <Form.Control.Feedback type="invalid">
-                            {formState.errors?.category}
-                        </Form.Control.Feedback>
-                    )}
+                <Form.Group
+                    className="my-3 d-flex justify-content-between"
+                    controlId="groupCategory"
+                >
+                    <Row className="g-0" style={{ width: "100%" }}>
+                        <Col md={3} className="mb-3 mb-md-0">
+                            <CategorySelection
+                                register={register}
+                                setValue={setValue}
+                                categoryNameRef={categoryNameRef}
+                            />
+                            {formState.errors && (
+                                <Form.Control.Feedback type="invalid">
+                                    {formState.errors?.category}
+                                </Form.Control.Feedback>
+                            )}
+                        </Col>
+                        <Col>
+                            <Controller
+                                name="files"
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <>
+                                        <Form.Control
+                                            value={field.value?.filename}
+                                            onChange={(e) =>
+                                                field.onChange(e.target?.files)
+                                            }
+                                            isInvalid={fieldState.invalid}
+                                            type="file"
+                                            accept=".pdf, .doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {fieldState.error?.message}
+                                        </Form.Control.Feedback>
+                                    </>
+                                )}
+                            />
+                            <Form.Text id="fileHelperText" muted>
+                                File import is limited to 5MB. Accepted formats
+                                are: doc, docx, dot, pdf.
+                            </Form.Text>
+                        </Col>
+                    </Row>
                 </Form.Group>
 
                 <Form.Group
