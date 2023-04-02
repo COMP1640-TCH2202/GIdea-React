@@ -9,6 +9,7 @@ export const useAlert = () => {
 export const AlertProvider = ({ children }) => {
     const [openSuccess, setOpenSuccess] = useState(false);
     const [openFailure, setOpenFailure] = useState(false);
+    const [openWarning, setOpenWarning] = useState(false);
     const [message, setMessage] = useState("");
     const [pathLink, setPathLink] = useState("")
 
@@ -20,9 +21,14 @@ export const AlertProvider = ({ children }) => {
         setOpenFailure(true);
     };
 
+    const handleWarning = () => {
+        setOpenWarning(true);
+    };
+
     const close = () => {
         setOpenSuccess(false);
         setOpenFailure(false);
+        setOpenWarning(false);
     };
 
     return (
@@ -30,10 +36,12 @@ export const AlertProvider = ({ children }) => {
             value={{
                 openSuccess,
                 openFailure,
+                openWarning,
                 message,
                 pathLink,
                 handleSuccess,
                 handleFailure,
+                handleWarning,
                 setMessage,
                 setPathLink,
                 close,

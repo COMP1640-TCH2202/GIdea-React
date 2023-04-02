@@ -5,7 +5,7 @@ const instance = axios.create({
     baseURL: process.env.REACT_APP_API_BASEURL,
     headers: {
         "X-Requested-With": "XMLHttpRequest",
-        "Accept": "application/json"
+        "Accept": "application/json",
     },
     withCredentials: true,
 });
@@ -21,6 +21,8 @@ instance.interceptors.response.use(
             case 503: // Down for maintenance
                 // Bounce the user to the login screen with a redirect back
                 alert("Your session has expired, you will be logged out.");
+                clearUser();
+                window.location.href = "/login";
                 break;
             case 500:
                 alert("Oops, something went wrong!");
@@ -29,8 +31,6 @@ instance.interceptors.response.use(
                 // Allow individual requests to handle other errors
                 return Promise.reject(error);
         }
-        clearUser();
-        window.location.href = "/login";
     }
 );
 
