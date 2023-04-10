@@ -2,10 +2,12 @@ import api from "../utils/api";
 
 export const login = async (request) => {
     await api.get("/sanctum/csrf-cookie");
-    // return api.post("/api/login", request);
 
-    // going for cookie based authentication endpoint
-    return api.post("/login", request);
+    // going for TOKEN based authentication method
+    return api.post("/api/login", request);
+
+    // going for COOKIE based authentication method
+    // return api.post("/login", request);
 };
 
 export const getLoggedInUser = async (request) => {
@@ -13,8 +15,11 @@ export const getLoggedInUser = async (request) => {
 };
 
 export const logout = async () => {
-    // return api.post("/api/logout");
-    return api.post("/logout");
+    // going for TOKEN based authentication method
+    return api.post("/api/logout");
+
+    // going for COOKIE based authentication method
+    // return api.post("/logout");
 };
 
 export const getUserSubmission = async () => {
