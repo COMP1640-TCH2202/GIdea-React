@@ -72,13 +72,15 @@ const CategoryManagement = () => {
             </Row>
             <Row>
                 <Col>
-                    <Button onClick={handleShowUpdate}>Add category</Button>
+                    <Button variant="success" onClick={handleShowUpdate}>
+                        Add category
+                    </Button>
                 </Col>
                 <Col style={{ display: "flex" }}>
                     <SearchBar />
                 </Col>
                 <Col className="d-flex justify-content-end">
-                    <Button>
+                    <Button variant="success">
                         <FaFilter />
                     </Button>
                 </Col>

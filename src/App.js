@@ -1,5 +1,5 @@
 import "./App.scss";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Fragment } from "react";
 import Login from "./components/Login/Login";
 import HomeLayout from "./layouts/HomeLayout";
@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-    const { openSuccess, openFailure, openWarning, message, close, pathLink } = useAlert();
+    const { openSuccess, openFailure, openWarning, message, close } = useAlert();
 
     return (
         <>
@@ -36,16 +36,6 @@ function App() {
                 >
                     <Toast.Body>
                         {message}{" "}
-                        {pathLink && (
-                            <Link
-                                to={pathLink}
-                                style={{
-                                    color: "inherit",
-                                }}
-                            >
-                                View your submission
-                            </Link>
-                        )}
                     </Toast.Body>
                 </Toast>
                 <Toast

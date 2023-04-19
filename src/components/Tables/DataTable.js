@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Table, Row, Col } from "react-bootstrap";
+import { Table, Row, Col } from "react-bootstrap";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Pagination from "../Pagination/Pagination";
@@ -24,7 +24,7 @@ const DataTable = ({ columns, queryData, isError, isLoading, isFetching }) => {
             columns,
             data: queryData.data,
             initialState: { pageIndex: 0, pageSize: 5 },
-            autoResetPage: false
+            autoResetPage: false,
         },
         useSortBy,
         usePagination
@@ -77,9 +77,6 @@ const DataTable = ({ columns, queryData, isError, isLoading, isFetching }) => {
                 </tbody>
             </Table>
             <Row className="mt-3">
-                <Col>
-                    <Button>Export Data</Button>
-                </Col>
                 <Col>
                     <Pagination
                         canNextPage={canNextPage}
