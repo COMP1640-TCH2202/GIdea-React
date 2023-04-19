@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Col, Form, Row, Card, Button } from "react-bootstrap";
+import { Col, Form, Row, Card, Button, ListGroup } from "react-bootstrap";
 import { FaPen } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import CommentList from "../Comments/CommentList";
@@ -39,6 +39,7 @@ const IdeaDetail = () => {
             const res = await getIdeaDetail(idea_id);
             return res.data;
         },
+        refetchOnWindowFocus: false,
     });
 
     const mutation = useMutation({
@@ -95,7 +96,7 @@ const IdeaDetail = () => {
                     <ErrorIndicator message={error.message} />
                 ) : (
                     <Col md={8}>
-                        <Card>
+                        <Card style={{ minHeight: 600 }}>
                             <Card.Body>
                                 <Card.Title
                                     as="h5"
@@ -123,12 +124,28 @@ const IdeaDetail = () => {
                                         data.updated_at
                                     ) && `Edited at: ${data.updated_at}`}
                                 </Card.Subtitle>
-                                <Card.Text>{data.content}</Card.Text>
-                                <hr />
-                                <Card.Text className="mt-2">
-                                    Document display here if has any
+                                <Card.Text className="mt-4">
+                                    {data.content}
                                 </Card.Text>
                             </Card.Body>
+                            <Card.Footer className="bg-transparent">
+                                <ListGroup variant="flush">
+                                    {data.documents.map((doc) => (
+                                        <>
+                                            <ListGroup.Item>
+                                                <Card.Link
+                                                    className="mt-2"
+                                                    key={doc.id}
+                                                    href={`${process.env.REACT_APP_API_BASEURL}/api/documents/${doc.slug}`}
+                                                    target="_blank"
+                                                >
+                                                    {doc.file_original_name}
+                                                </Card.Link>
+                                            </ListGroup.Item>
+                                        </>
+                                    ))}
+                                </ListGroup>
+                            </Card.Footer>
                         </Card>
                         <Card className="mt-3">
                             <Card.Body>
