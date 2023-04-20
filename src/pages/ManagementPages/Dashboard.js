@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row, Stack, Tab, Tabs } from "react-bootstrap";
+import { Button, Col, Row, Stack, Tab, Tabs } from "react-bootstrap";
 import TableData from "../../components/Statistics/TableData";
 import PieChart from "../../components/Statistics/PieChart";
 import BarChart from "../../components/Statistics/BarChart";
@@ -9,12 +9,20 @@ import { getIdeasFact } from "../../services/StatisticsService";
 import { useQuery } from "@tanstack/react-query";
 import LoadingIndicator from "../../components/Indicator/LoadingIndicator";
 import ErrorIndicator from "../../components/Indicator/ErrorIndicator";
+import { FaFileExport } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
     const [key, setKey] = useState("current");
     return (
         <>
-            <h2 className="mb-3">Admin Dashboard</h2>
+            <div className="mb-3 d-flex justify-content-between">
+                <p className="h2">Admin Dashboard</p>
+                <Button variant="success" className="text-center" as={Link} to={`${process.env.REACT_APP_API_BASEURL}/api/ideas/export/1`} download>
+                    <FaFileExport style={{ height: '100%', marginRight: 8 }} />
+                    <span>Export CSV</span>
+                </Button>
+            </div>
             <Tabs
                 activeKey={key}
                 id="dashboard-tabs"
@@ -22,7 +30,7 @@ const Dashboard = () => {
                 onSelect={(k) => setKey(k)}
                 justify
             >
-                <Tab eventKey="current" title="Current Event" >
+                <Tab eventKey="current" title="Current Event">
                     <CurrentEventDashboard />
                 </Tab>
 
