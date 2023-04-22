@@ -17,7 +17,7 @@ const Dashboard = () => {
     return (
         <>
             <div className="mb-3 d-flex justify-content-between">
-                <p className="h2">Admin Dashboard</p>
+                <p className="h2">Dashboard</p>
                 <Button variant="success" className="text-center" as={Link} to={`${process.env.REACT_APP_API_BASEURL}/api/ideas/export/1`} download>
                     <FaFileExport style={{ height: '100%', marginRight: 8 }} />
                     <span>Export CSV</span>

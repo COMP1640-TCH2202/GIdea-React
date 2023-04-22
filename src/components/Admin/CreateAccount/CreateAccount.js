@@ -8,8 +8,8 @@ import Col from 'react-bootstrap/Col';
 import styles from "../CreateAccount/CreateAccount.module.scss";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import * as accountService from '../../../services/AccountsService'
-import * as departmentService from '../../../services/DepartmentsService'
+import * as accountService from '../../../services/AccountService'
+import * as departmentService from '../../../services/DepartmentService'
 
 
 
