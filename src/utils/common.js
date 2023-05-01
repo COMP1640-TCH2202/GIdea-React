@@ -15,6 +15,10 @@ export const numFormatter = (number) => {
     return formatter.format(number);
 };
 
+export const dateFormatter = (date, locale, options) => {
+    return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+}
+
 export const timesAgoFormatter = (date) => {
     const formatter = new Intl.RelativeTimeFormat(`en`, { style: `narrow`, });
     const secondsAgo = Math.floor((new Date() - new Date(date)) / 1000);

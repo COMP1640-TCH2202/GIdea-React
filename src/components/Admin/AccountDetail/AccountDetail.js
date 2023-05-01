@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import { FcBusinessman } from "react-icons/fc";
 import * as departmentService from '../../../services/DepartmentService'
 import * as accountService from '../../../services/AccountService'
-import '../AccountDetail/AccountDetail.module.scss';
+// import '../AccountDetail/AccountDetail.module.scss';
 const AccountDetail = () => {
     const { register, handleSubmit } = useForm()
 

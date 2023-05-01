@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import styles from "../CreateAccount/CreateAccount.module.scss";
+// import styles from "../CreateAccount/CreateAccount.module.scss";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as accountService from '../../../services/AccountService'
@@ -67,7 +67,7 @@ const CreateAccount = () => {
                             <Form.Control
                                 type="text"
                                 placeholder="Enter first name"
-                                className={styles.form}
+                                // className={styles.form}
                                 name='first_name'
                                 required
                                 {...register('first_name')}
@@ -76,7 +76,7 @@ const CreateAccount = () => {
                         <Form.Group as={Col} className="mb-3">
                             <Form.Label>Last Name:</Form.Label>
                             <Form.Control
-                                className={styles.form}
+                                // className={styles.form}
                                 placeholder="Enter last name"
                                 name='last_name'
                                 required
@@ -107,7 +107,7 @@ const CreateAccount = () => {
                         <Form.Label>Date of Birth:</Form.Label>
                         <Form.Control
                             type='date'
-                            className={styles.form}
+                            // className={styles.form}
                             placeholder="Date of birth"
                             name='dob'
                             required
@@ -119,7 +119,7 @@ const CreateAccount = () => {
                     <Form.Group className="mb-4">
                         <Form.Control
                             type='email'
-                            className={styles.form}
+                            // className={styles.form}
                             placeholder="Enter email"
                             name='email'
                             required
@@ -128,7 +128,9 @@ const CreateAccount = () => {
                     </Form.Group>
                     <Row className='mb-3'>
                         <Form.Group as={Col} className="mb-3">
-                            <Form.Select className={styles.form} {...register('role')}>
+                            <Form.Select 
+                            // className={styles.form}
+                             {...register('role')}>
                                 <option value="admin">Admin</option>
                                 <option value="coordinator">QA Coordinator</option>
                                 <option value="staff">Staff</option>
@@ -136,7 +138,9 @@ const CreateAccount = () => {
                             </Form.Select>
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3">
-                            <Form.Select className={styles.form} placeholder='Department' {...register('department')}>
+                            <Form.Select 
+                            // className={styles.form}
+                             placeholder='Department' {...register('department')}>
                                 {departments.map((department) => {
                                     return (
                                         <option value={department.id}>{department.name}</option>

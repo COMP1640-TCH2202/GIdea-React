@@ -9,14 +9,17 @@ export const getUsersBy = (params) => {
 }
 
 export const updateUser = async (id, request) => {
-    api.put(`/api/users/${id}`, request);
+    return api.put(`/api/users/${id}`, request);
 }
 
-export const getUserById = async (id) =>
-    api.get(`/api/users/${id}`);
+export const getUserById = async (id) => {
+    return api.get(`/api/users/${id}`);
+}
 
-export const createUser = async (request) =>
-    api.post("/api/users", request);
+export const createUser = async (request) => {
+    return api.post("/api/users", request);
+}
 
-export const deleteUser = async (id) =>
-    api.delete(`/api/users/${id}`);
+export const deleteUser = async (id) => {
+    return api.delete(`/api/users/${id}`);
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import ManagementLayout, {TabLayout} from "../layouts/ManagementLayout";
+import ManagementLayout, { TabLayout } from "../layouts/ManagementLayout";
 import Dashboard from "../pages/ManagementPages/Dashboard";
 import CategoryManagement from "../pages/ManagementPages/CategoryManagement";
 import IdeaManagement from "../pages/ManagementPages/IdeaManagement";
@@ -14,7 +14,9 @@ import AccountDetail from "../components/Admin/AccountDetail/AccountDetail";
 import ManageDepartment from "../components/Department/ManageDepartment/ManageDepartment";
 import DepartmentDetail from "../components/Department/DepartmentDetail/DepartmentDetail";
 // import CreateDepartment from "../components/Department/CreateDepartment/CreateDepartment";
-import CreateDepartment from "../components/Admin/Departments/CreateDepartment";
+import DepartmentForm from "../components/Admin/Departments/DepartmentForm";
+import AccountForm from "../components/Admin/Accounts/AccountForm";
+// import DetailDepartment from "../components/Admin/Departments/DetailDepartment";
 const ManagementRoutes = () => {
     const location = useLocation();
     return (
@@ -26,10 +28,13 @@ const ManagementRoutes = () => {
                     }
                 >
                     <Route index element={<Dashboard />} />
+
                     <Route
                         path="categories"
-                        element={<CategoryManagement />}
-                    />
+                        element={<TabLayout tabName="Category" />}
+                    >
+                        <Route index element={<CategoryManagement />} />
+                    </Route>
                     <Route path="ideas" element={<IdeaManagement />} />
                     <Route
                         path="/*"
@@ -64,24 +69,37 @@ const ManagementRoutes = () => {
                         <Route path=":id" element={<DepartmentDetail />} />
                     </Route> */}
 
-                    
                     <Route
                         path="accounts"
                         element={<TabLayout tabName="Account" />}
                     >
-                        <Route index element={<AccountManagement />}/>
-                        {/* <Route path="create" element={<CreateDepartment />}/> */}
-                    </Route>    
-                    
+                        <Route index element={<AccountManagement />} />
+                        <Route
+                            path="create"
+                            element={<AccountForm action="create" />}
+                        />
+                        <Route
+                            path=":accId/edit"
+                            element={<AccountForm action="edit" />}
+                        />
+                    </Route>
+
                     <Route
                         path="departments"
                         element={<TabLayout tabName="Department" />}
                     >
-                        <Route index element={<DepartmentManagement />}/>
-                        <Route path="create" element={<CreateDepartment />}/>
-                    </Route>    
+                        <Route index element={<DepartmentManagement />} />
+                        <Route
+                            path="create"
+                            element={<DepartmentForm action="create" />}
+                        />
+                        <Route
+                            path=":deptId/edit"
+                            element={<DepartmentForm action="edit" />}
+                        />
+                    </Route>
 
-                    <Route path="events/*" element={<EventManagement />} />
+                    <Route path="events" element={<EventManagement />} />
                     <Route
                         path="/*"
                         element={

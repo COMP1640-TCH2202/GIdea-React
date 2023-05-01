@@ -117,7 +117,7 @@ const IdeaDetail = () => {
                                     </div>
                                 </Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">
-                                    {data?.user?.full_name ?? "Anonymous"}
+                                    {data?.user?.full_name ?? "Anonymous"}{" "}
                                     <span>&bull;</span> {data.created_at}
                                     {isUpdated(
                                         data.created_at,
@@ -131,18 +131,15 @@ const IdeaDetail = () => {
                             <Card.Footer className="bg-transparent">
                                 <ListGroup variant="flush">
                                     {data.documents.map((doc) => (
-                                        <>
-                                            <ListGroup.Item>
+                                            <ListGroup.Item key={doc.id}>
                                                 <Card.Link
                                                     className="mt-2"
-                                                    key={doc.id}
                                                     href={`${process.env.REACT_APP_API_BASEURL}/api/documents/${doc.slug}`}
                                                     target="_blank"
                                                 >
                                                     {doc.file_original_name}
                                                 </Card.Link>
                                             </ListGroup.Item>
-                                        </>
                                     ))}
                                 </ListGroup>
                             </Card.Footer>

@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import styles from '../ManageDepartment/ManageDepartment.module.scss'
+// import styles from '../ManageDepartment/ManageDepartment.module.scss'
 import clsx from 'clsx';
 import Modal from '../../Modal/Modal';
 import { useRef } from 'react';
@@ -47,9 +47,13 @@ const ManageDepartment = () => {
     return (
         <>
         {showModal && <Modal title='Notification' content = 'Are you sure to delete this department ?' handleDelete = {handleDelete} modalShow = {setShowModal} id={selectedId.current}/>}
-        <div className={clsx(styles.list_department, 'container')}>
+        <div 
+        // className={clsx(styles.list_department, 'container')}
+        >
             <h1 style={{ textAlign: 'center', marginTop: "2em" }}>Department Management</h1>
-            <div className={styles.add_btn}>
+            <div 
+            // className={styles.add_btn}
+            >
                 <Link to='./create-department'>Create new department</Link>
             </div>
             <table>
@@ -74,11 +78,15 @@ const ManageDepartment = () => {
                                 <td data-label="status">Online</td>
                                 <td>
                                     <Link to={`./${department.id}`}>
-                                        <button className={styles.btn_edit}>
+                                        <button 
+                                        // className={styles.btn_edit}
+                                        >
                                             <BsPencil />
                                         </button>
                                     </Link>
-                                    <button className={styles.btn_delete} onClick={() => {
+                                    <button
+                                    //  className={styles.btn_delete} 
+                                     onClick={() => {
                                         selectedId.current = department.id
                                         toggle()
                                     }

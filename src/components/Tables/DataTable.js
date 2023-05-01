@@ -3,14 +3,16 @@ import { Table, Row, Col } from "react-bootstrap";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Pagination from "../Pagination/Pagination";
+import { BsDatabaseSlash } from "react-icons/bs";
 
-const DataTable = ({ columns, queryData, isError, isLoading, isFetching }) => {
+const DataTable = ({ columns, dataArray, shouldPaginate = true }) => {
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         prepareRow,
         page,
+        headers,
         canPreviousPage,
         canNextPage,
         pageOptions,
@@ -22,7 +24,7 @@ const DataTable = ({ columns, queryData, isError, isLoading, isFetching }) => {
     } = useTable(
         {
             columns,
-            data: queryData.data,
+            data: dataArray,
             initialState: { pageIndex: 0, pageSize: 5 },
             autoResetPage: false,
         },
@@ -60,6 +62,17 @@ const DataTable = ({ columns, queryData, isError, isLoading, isFetching }) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
+                    {page.length === 0 && (
+                        <tr style={{ height: 400, verticalAlign: "middle" }}>
+                            <td
+                                colSpan={headers.length}
+                                className="text-center text-muted"
+                            >
+                                <BsDatabaseSlash style={{fontSize: 80}}/>
+                                <h4 className="mt-3">No data found</h4>
+                            </td>
+                        </tr>
+                    )}
                     {page.map((row, i) => {
                         prepareRow(row);
                         return (
@@ -76,6 +89,7 @@ const DataTable = ({ columns, queryData, isError, isLoading, isFetching }) => {
                     })}
                 </tbody>
             </Table>
+
             <Row className="mt-3">
                 <Col>
                     <Pagination

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
     deleteDepartment,
     getAllDepartments,
@@ -9,20 +9,20 @@ import { Button, Col, Row } from "react-bootstrap";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import LoadingIndicator from "../../components/Indicator/LoadingIndicator";
 import DepartmentTable from "../../components/Tables/DataTable";
-import DepartmentCanvas from "../../components/Canvas/DepartmentCanvas";
 import EditButton from "../../components/Buttons/EditButton";
-import AddButton from "../../components/Buttons/AddButton";
 import { Link } from "react-router-dom";
 
 const DepartmentManagement = () => {
     const {
         isLoading,
-        isFetching,
         isError,
         data: departments,
     } = useQuery({
         queryKey: ["departments"],
-        queryFn: getAllDepartments,
+        queryFn: async () => {
+            const response = await getAllDepartments();
+            return response.data;
+        },
     });
 
     const columns = useMemo(
@@ -37,12 +37,13 @@ const DepartmentManagement = () => {
             },
             {
                 Header: "Coordinator",
-                accessor: (row) => row.coordinator_name ?? "Not Assigned",
+                accessor: (row) => row?.coordinator?.name ?? "Not Assigned",
                 id: "coordinator",
             },
             {
                 Header: "Coordinator Email",
-                accessor: "coordinator_email",
+                accessor: (row) => row?.coordinator?.email ?? "",
+                id: "coordinator_email",
             },
             {
                 Header: "Members",
@@ -61,8 +62,17 @@ const DepartmentManagement = () => {
 
                         <TrashButton
                             id={row.original.id}
-                            resourceType={"department"}
-                            message={`You are about to delete department ${row.original.name}, please confirm...`}
+                            title="Delete Department"
+                            message={
+                                <>
+                                    <p className="text-danger fs-4">Danger! </p>
+                                    <p className="text-danger fs-6">
+                                        Every members in{" "}
+                                        <b>{row.original.name}</b> will be
+                                        detached!
+                                    </p>
+                                </>
+                            }
                             invalidateQueries={["departments"]}
                             deleteFn={deleteDepartment}
                         />
@@ -73,56 +83,35 @@ const DepartmentManagement = () => {
         []
     );
 
-    const queryData = useMemo(() => departments, [departments]);
+    const dataArray = useMemo(() => departments, [departments]);
 
     return (
         <>
             {isError && (
-                <div className="p-3 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3">
+                <div className="p-3 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-5">
                     Something go terribly wrong!
                 </div>
             )}
             <Row className="mt-4">
-                <Col>
+                <Col className="d-flex justify-content-end">
                     <SearchBar />
-                </Col>
-                <Col>
                     <Button
                         variant="success"
-                        className="float-end"
+                        className="ms-5"
                         as={Link}
                         to="create"
                     >
                         Add Department
                     </Button>
-                    {/* <AddButton
-                        variant="success"
-                        resourceType="departmeƒnt"
-                        text="Add Department"
-                        action="Add"
-                        classes="float-end"
-                    /> */}
                 </Col>
             </Row>
             <Row className="mt-5">
                 {isLoading ? (
                     <LoadingIndicator />
                 ) : (
-                    <DepartmentTable
-                        columns={columns}
-                        queryData={queryData}
-                        isError={isError}
-                        isLoading={isLoading}
-                        isFetching={isFetching}
-                    />
+                    <DepartmentTable columns={columns} dataArray={dataArray} />
                 )}
             </Row>
-
-            {/* <DepartmentCanvas
-                action={"Add new"}
-                show={showCanvas}
-                handleShow={handleShowCanvas}
-            /> */}
         </>
     );
 };

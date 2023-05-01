@@ -37,11 +37,17 @@ const Header = ({ user }) => {
                     <NavDropdown
                         title={`${user?.lastName} ${user?.firstName}`}
                         id="basic-nav-dropdown"
+                        align="end"
                     >
                         <NavDropdown.Item as={Link} to="/profile">
                             My Account
                         </NavDropdown.Item>
-                        {user?.role === "staff" ? (
+                        {["admin", "manager"].includes(user?.role) && (
+                            <NavDropdown.Item as={Link} to="/management">
+                                App Management
+                            </NavDropdown.Item>
+                        )}
+                        {/* {user?.role === "admin" | "manager" ? (
                             <NavDropdown.Item as={Link} to="/submission">
                                 My Submissions
                             </NavDropdown.Item>
@@ -49,7 +55,7 @@ const Header = ({ user }) => {
                             <NavDropdown.Item as={Link} to="/management">
                                 App Management
                             </NavDropdown.Item>
-                        )}
+                        )} */}
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Button} onClick={handleLogout}>
                             Logout

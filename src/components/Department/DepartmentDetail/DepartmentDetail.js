@@ -2,7 +2,7 @@
 import { React, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import '../DepartmentDetail/DepartmentDetail.module.scss';
+// import '../DepartmentDetail/DepartmentDetail.module.scss';
 import { getDepartmentDetail } from '../../../services/DepartmentService';
 
 const DepartmentDetail = () => {
