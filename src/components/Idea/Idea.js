@@ -10,6 +10,7 @@ import { voteIdea } from "../../services/IdeaService";
 import { useAlert } from "../../contexts/AlertProvider";
 import { Card, Col, Row } from "react-bootstrap";
 import { numFormatter, timesAgoFormatter } from "../../utils/common";
+import { FaEye } from "react-icons/fa";
 
 const VoteSection = ({ idea_id, vote_value, votes }) => {
     const [currentVotes, setCurrentVotes] = useState(votes);
@@ -86,6 +87,8 @@ const Idea = ({ data }) => {
         votes,
         vote_value = null,
         category = null,
+        views = 0,
+        comments_count = 0
     } = data;
 
     const author_name = user
@@ -117,6 +120,11 @@ const Idea = ({ data }) => {
                         <Card.Subtitle className="mb-3 text-muted">
                             {author_name} <span>&bull;</span>{" "}
                             {timesAgoFormatter(created_at)}
+                            <span className="mx-2">|</span>
+                            <div className="d-inline fs-6">
+                                <FaEye />
+                                <span className="ms-2">{views}</span>
+                            </div>
                         </Card.Subtitle>
                         <Card.Subtitle className="mb-2">
                             <Badge
@@ -152,6 +160,7 @@ const Idea = ({ data }) => {
                             />
                             <span>Comments</span>
                         </Button>
+                        <span className="ms-3 text-muted">{comments_count} discussions going on</span>
                     </Card.Footer>
                 </Col>
             </Row>

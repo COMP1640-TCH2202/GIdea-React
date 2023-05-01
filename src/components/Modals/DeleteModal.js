@@ -10,7 +10,7 @@ const DeleteModal = (props) => {
         deleteFn,
         invalidateQueries,
         id,
-        resourceType,
+        title,
         message,
         onHide,
         show,
@@ -22,7 +22,7 @@ const DeleteModal = (props) => {
         mutationFn: (id) => deleteFn(id),
         onSuccess: (data) => {
             queryClient
-                .invalidateQueries(invalidateQueries, { exact: true })
+                .invalidateQueries(invalidateQueries)
                 .then(() => {
                     onHide();
                     setMessage(data.data.message ?? "Successfully deleted!");
@@ -40,19 +40,16 @@ const DeleteModal = (props) => {
         <Modal
             show={show}
             onHide={onHide}
-            size="lg"
+            backdrop="static"
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Delete {resourceType}
+                    {title}
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <h4>Confirm delete</h4>
-                <p>{message}</p>
-            </Modal.Body>
+            <Modal.Body>{message}</Modal.Body>
             <Modal.Footer>
                 <Button
                     variant="danger"

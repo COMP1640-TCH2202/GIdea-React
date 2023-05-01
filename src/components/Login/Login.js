@@ -60,7 +60,7 @@ function Login() {
 
     return (
         <div className={styles.login_container}>
-            <Navbar/>
+            {/* <Navbar/> */}
             <div className={styles.form_container}>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <h1 className={styles.login_heading}>Log in</h1>

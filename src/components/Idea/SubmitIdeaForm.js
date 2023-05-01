@@ -99,7 +99,7 @@ const SubmitIdeaForm = () => {
                 return res.data;
             })
             .catch((err) => {
-                if (err.response.status === 400) {
+                if (err.response.status >= 400) {
                     setMessage(err.response.data.message);
                     handleFailure();
                 }

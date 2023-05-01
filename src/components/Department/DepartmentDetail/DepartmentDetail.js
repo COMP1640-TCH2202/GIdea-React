@@ -2,8 +2,8 @@
 import { React, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import '../DepartmentDetail/DepartmentDetail.module.scss';
-import { getDetailDepartment } from '../../../services/DepartmentService';
+// import '../DepartmentDetail/DepartmentDetail.module.scss';
+import { getDepartmentDetail } from '../../../services/DepartmentService';
 
 const DepartmentDetail = () => {
     const [department, setDepartment] = useState();
@@ -16,7 +16,7 @@ const DepartmentDetail = () => {
     const { id } = useParams()
     console.log(id)
     const  getDepartment  =  () =>   {
-        getDetailDepartment(id)
+        getDepartmentDetail(id)
             .then((res) => {
                 setDepartment(res.data);
             });

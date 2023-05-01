@@ -31,4 +31,18 @@ const ManagementLayout = () => {
     );
 };
 
+export const TabLayout = ({tabName}) => {
+    return (
+        <>
+            <Row className="g-0 mb-1">
+                <Col>
+                    <h3 className="display-6">{tabName} Management</h3>
+                </Col>
+            </Row>
+            <hr />
+            <Outlet />
+        </>
+    );
+};
+
 export default ManagementLayout;

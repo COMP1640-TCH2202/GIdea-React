@@ -3,13 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserSubmission } from "../../services/UserService";
 import LoadingIndicator from "../Indicator/LoadingIndicator";
 import ErrorIndicator from "../Indicator/ErrorIndicator";
-import { useFlexLayout, useSortBy, useTable } from "react-table";
+import { useSortBy, useTable } from "react-table";
 import { FaSort, FaSortUp, FaSortDown, FaPen } from "react-icons/fa";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styles from "./SubmissionTable.module.scss";
 import TrashButton from "../Buttons/TrashButton";
 import { deleteIdea } from "../../services/IdeaService";
+import { dateFormatter } from "../../utils/common";
 
 const SubmissionTable = () => {
     const {
@@ -22,13 +23,15 @@ const SubmissionTable = () => {
         queryFn: getUserSubmission,
     });
 
+    console.log(submissions);
+
     const columns = useMemo(
         () => [
             {
                 Header: "ID",
                 accessor: "id",
                 // maxWidth: 1,
-                // width: 1
+                // width: 10,
             },
             {
                 Header: "Title",
@@ -39,18 +42,38 @@ const SubmissionTable = () => {
                     </Link>
                 ),
                 // maxWidth: 5,
-                // width: 5
+                // width: 60,
+            },
+            {
+                Header: "Views",
+                accessor: "views",
+                // width: 16,
+            },
+            {
+                Header: "Votes",
+                accessor: "votes",
+                // width: 16,
+            },
+            {
+                Header: "Comments",
+                accessor: "comments_count",
+                // width: 16,
             },
             {
                 Header: "Created at",
-                accessor: "created_at",
+                accessor: (row) =>
+                    dateFormatter(row.created_at, "en-GB", {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                        second: "numeric"
+                    }),
                 // maxWidth: 2,
-                // width: 2,
+                // width: 32,
+                
             },
-            // {
-            //     Header: "Comments",
-            //     accessor: "comments_count",
-            // },
             {
                 id: "actions",
                 Cell: ({ row }) => (
@@ -106,13 +129,12 @@ const DataTable = ({ columns, queryData }) => {
                 data: queryData.data,
             },
             useSortBy,
-            useFlexLayout
         );
 
     return (
         <div className={styles.tableFixedHead}>
-            <Table size="sm" responsive="md" bordered {...getTableProps()}>
-                <thead style={{ background: "none" }}>
+            <Table size="lg" responsive="md" bordered hover {...getTableProps()}>
+                <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (

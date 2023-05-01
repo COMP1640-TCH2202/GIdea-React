@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { FaFilter } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import {
     deleteCategory,
@@ -18,12 +17,14 @@ const CategoryManagement = () => {
 
     const {
         isLoading,
-        isFetching,
         isError,
         data: categories,
     } = useQuery({
         queryKey: ["categories"],
-        queryFn: getAllCategories,
+        queryFn: async () => {
+            const response = await getAllCategories();
+            return response.data;
+        },
     });
 
     const columns = useMemo(
@@ -38,15 +39,22 @@ const CategoryManagement = () => {
                 accessor: "name",
             },
             {
+                Header: "Ideas",
+                accessor: "ideas_count"
+            },
+            {
                 id: "actions",
                 width: 20,
                 Cell: ({ row }) => (
                     <div onClick={(e) => e.stopPropagation()}>
                         <TrashButton
                             id={row.original.id}
-                            resourceType={"categories"}
+                            title={"Delete category"}
                             message={
-                                "You are about to delete this category, please confirm..."
+                                <p>
+                                    Do you want to delete{" "}
+                                    <b>{row.original.name}</b> category?
+                                </p>
                             }
                             invalidateQueries={["categories"]}
                             deleteFn={deleteCategory}
@@ -58,7 +66,7 @@ const CategoryManagement = () => {
         []
     );
 
-    const queryData = useMemo(() => categories, [categories]);
+    const dataArray = useMemo(() => categories, [categories]);
 
     return (
         <>
@@ -67,21 +75,15 @@ const CategoryManagement = () => {
                     Something go terribly wrong!
                 </div>
             )}
-            <Row style={{ marginBottom: "1rem" }}>
-                <h3 className="display-6">Category Management</h3>
-            </Row>
             <Row>
-                <Col>
-                    <Button variant="success" onClick={handleShowUpdate}>
-                        Add category
-                    </Button>
-                </Col>
-                <Col style={{ display: "flex" }}>
-                    <SearchBar />
-                </Col>
                 <Col className="d-flex justify-content-end">
-                    <Button variant="success">
-                        <FaFilter />
+                    <SearchBar />
+                    <Button
+                        className="ms-5"
+                        variant="success"
+                        onClick={handleShowUpdate}
+                    >
+                        Add category
                     </Button>
                 </Col>
             </Row>
@@ -89,13 +91,7 @@ const CategoryManagement = () => {
                 {isLoading ? (
                     <LoadingIndicator />
                 ) : (
-                    <CategoryTable
-                        columns={columns}
-                        queryData={queryData}
-                        isError={isError}
-                        isLoading={isLoading}
-                        isFetching={isFetching}
-                    />
+                    <CategoryTable columns={columns} dataArray={dataArray} />
                 )}
             </Row>
 

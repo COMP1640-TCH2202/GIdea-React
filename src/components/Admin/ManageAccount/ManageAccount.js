@@ -5,7 +5,7 @@ import Modal from '../../Modal/Modal';
 import Navbar from '../../Navbar/Navbar';
 import { Link } from 'react-router-dom';
 import { BsPencil, BsTrashFill } from "react-icons/bs";
-import * as accountService from "../../../services/AccountsService"
+import * as accountService from "../../../services/AccountService"
 
 
 const ManageAccount = () => {
