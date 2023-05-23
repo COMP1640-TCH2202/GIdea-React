@@ -8,15 +8,8 @@ import AccountManagement from "../pages/ManagementPages/AccountManagement";
 import DepartmentManagement from "../pages/ManagementPages/DepartmentManagement";
 import EventManagement from "../pages/ManagementPages/EventManagement";
 import ProtectedRoutes from "./ProtectedRoutes";
-import ManageAccount from "../components/Admin/ManageAccount/ManageAccount";
-import CreateAccount from "../components/Admin/CreateAccount/CreateAccount";
-import AccountDetail from "../components/Admin/AccountDetail/AccountDetail";
-import ManageDepartment from "../components/Department/ManageDepartment/ManageDepartment";
-import DepartmentDetail from "../components/Department/DepartmentDetail/DepartmentDetail";
-// import CreateDepartment from "../components/Department/CreateDepartment/CreateDepartment";
 import DepartmentForm from "../components/Admin/Departments/DepartmentForm";
 import AccountForm from "../components/Admin/Accounts/AccountForm";
-// import DetailDepartment from "../components/Admin/Departments/DetailDepartment";
 const ManagementRoutes = () => {
     const location = useLocation();
     return (

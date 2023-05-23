@@ -48,7 +48,8 @@ const AccountManagement = () => {
             },
             {
                 Header: "Role",
-                accessor: "role",
+                accessor: (row) =>
+                    row.role.charAt(0).toUpperCase() + row.role.slice(1),
             },
             {
                 Header: "Department",

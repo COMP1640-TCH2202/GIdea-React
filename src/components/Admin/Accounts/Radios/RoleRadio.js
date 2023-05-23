@@ -1,24 +1,27 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
 import { Controller } from "react-hook-form";
-import { genderOptions } from "../../../../dictionaries/Dictionaries";
+import { roleOptions } from "../../../../dictionaries/Dictionaries";
+import { Form } from "react-bootstrap";
 
-const GenderRadio = ({ control, setValue, trigger, initialGender = null }) => {
-    const [selected, setSelected] = useState(initialGender);
+const RoleRadio = ({ control, setValue, trigger, initialRole = null }) => {
+    const [selected, setSelected] = useState(initialRole);
 
     const changeRadio = (e) => {
-        setValue("gender", e.target.value, { shouldDirty: true });
+        setValue("role", e.target.value, {
+            shouldDirty: true,
+            shouldValidate: true,
+        });
         setSelected(e.target.value);
-        trigger("gender");
+        trigger(["role", "department_id"]);
     };
 
     return (
         <Controller
-            name="gender"
+            name="role"
             control={control}
             render={({ field, fieldState: { invalid, error } }) => (
                 <div>
-                    {genderOptions.map((option) => (
+                    {roleOptions.map((option) => (
                         <div key={option.value} className="d-inline">
                             <Form.Check
                                 {...field}
@@ -26,7 +29,7 @@ const GenderRadio = ({ control, setValue, trigger, initialGender = null }) => {
                                 type="radio"
                                 value={option.value}
                                 onChange={changeRadio}
-                                checked={parseInt(selected) === option.value}
+                                checked={selected === option.value}
                                 label={option.label}
                                 isInvalid={invalid}
                             />
@@ -41,4 +44,4 @@ const GenderRadio = ({ control, setValue, trigger, initialGender = null }) => {
     );
 };
 
-export default GenderRadio;
+export default RoleRadio;

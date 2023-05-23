@@ -22,7 +22,8 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-    const { openSuccess, openFailure, openWarning, message, close } = useAlert();
+    const { openSuccess, openFailure, openWarning, message, close } =
+        useAlert();
 
     return (
         <>
@@ -34,9 +35,7 @@ function App() {
                     onClose={close}
                     className="align-items-center text-bg-success border-0"
                 >
-                    <Toast.Body>
-                        {message}{" "}
-                    </Toast.Body>
+                    <Toast.Body>{message} </Toast.Body>
                 </Toast>
                 <Toast
                     show={openFailure}

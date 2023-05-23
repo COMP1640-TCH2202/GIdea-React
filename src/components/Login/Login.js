@@ -7,7 +7,6 @@ import { useForm, Controller } from "react-hook-form";
 import { login } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../../utils/common";
-import Navbar from '../Navbar/Navbar';
 
 function Login() {
     const navigate = useNavigate();
@@ -23,13 +22,13 @@ function Login() {
             password: "",
         },
     });
-    
+
     const onSubmit = async (data) => {
         const request = {
             email: data.email,
             password: data.password,
         };
-        
+
         //Because login() return a Promise so we have to resolve it
         //can also use await
         login(request)
@@ -60,7 +59,6 @@ function Login() {
 
     return (
         <div className={styles.login_container}>
-            {/* <Navbar/> */}
             <div className={styles.form_container}>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <h1 className={styles.login_heading}>Log in</h1>

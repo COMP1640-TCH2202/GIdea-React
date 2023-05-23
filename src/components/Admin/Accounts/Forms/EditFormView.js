@@ -69,7 +69,6 @@ const EditForm = ({ account, schema }) => {
     const {
         control,
         handleSubmit,
-        setError,
         getValues,
         setValue,
         formState: { isSubmitting, isDirty },
