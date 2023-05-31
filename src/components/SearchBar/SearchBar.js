@@ -1,13 +1,30 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import { useAsyncDebounce } from "react-table";
 
-const SearchBar = () => {
+const SearchBar = ({
+    preGlobalFilteredRows,
+    globalFilter,
+    setGlobalFilter,
+}) => {
+    const count = preGlobalFilteredRows.length;
+    const [value, setValue] = React.useState(globalFilter);
+    const onChange = useAsyncDebounce((value) => {
+        setGlobalFilter(value || undefined);
+    }, 300);
+
     return (
-        <Form className="d-inline-block" style={{width: "20vw"}}>
-            <Form.Group>
-                <Form.Control placeholder="Search..." />
-            </Form.Group>
-        </Form>
+        <Form.Group>
+            <Form.Control
+                className="search-bar"
+                value={value || ""}
+                onChange={(e) => {
+                    setValue(e.target.value);
+                    onChange(e.target.value);
+                }}
+                placeholder={`Search ${count} records...`}
+            />
+        </Form.Group>
     );
 };
 

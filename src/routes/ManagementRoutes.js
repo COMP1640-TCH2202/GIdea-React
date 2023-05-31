@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import ManagementLayout, { TabLayout } from "../layouts/ManagementLayout";
+import ManagementLayout from "../layouts/ManagementLayout";
 import Dashboard from "../pages/ManagementPages/Dashboard";
 import CategoryManagement from "../pages/ManagementPages/CategoryManagement";
 import IdeaManagement from "../pages/ManagementPages/IdeaManagement";
@@ -20,15 +20,14 @@ const ManagementRoutes = () => {
                         <ProtectedRoutes allowedRoles={["manager", "admin"]} />
                     }
                 >
-                    <Route index element={<Dashboard />} />
+                    <Route path="dashboard" element={<Dashboard />} />
 
-                    <Route
-                        path="categories"
-                        element={<TabLayout tabName="Category" />}
-                    >
+                    <Route path="categories">
                         <Route index element={<CategoryManagement />} />
                     </Route>
+
                     <Route path="ideas" element={<IdeaManagement />} />
+
                     <Route
                         path="/*"
                         element={
@@ -42,30 +41,7 @@ const ManagementRoutes = () => {
                 </Route>
 
                 <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
-                    <Route index element={<Dashboard />} />
-
-                    {/* Keep below line */}
-                    {/* <Route path="accounts/*" element={<AccountManagement />} /> */}
-
-                    {/* <Route path="accounts">
-                        <Route index element={<ManageAccount />} />
-                        <Route
-                            path="create-account"
-                            element={<CreateAccount />}
-                        />
-                        <Route path=":id" element={<AccountDetail />} />
-                    </Route> */}
-
-                    {/* <Route path="departments">
-                        <Route index element={<ManageDepartment />} />
-                        <Route path="create-department" element={<CreateDepartment />} />
-                        <Route path=":id" element={<DepartmentDetail />} />
-                    </Route> */}
-
-                    <Route
-                        path="accounts"
-                        element={<TabLayout tabName="Account" />}
-                    >
+                    <Route path="accounts">
                         <Route index element={<AccountManagement />} />
                         <Route
                             path="create"
@@ -77,10 +53,7 @@ const ManagementRoutes = () => {
                         />
                     </Route>
 
-                    <Route
-                        path="departments"
-                        element={<TabLayout tabName="Department" />}
-                    >
+                    <Route path="departments">
                         <Route index element={<DepartmentManagement />} />
                         <Route
                             path="create"
@@ -93,6 +66,7 @@ const ManagementRoutes = () => {
                     </Route>
 
                     <Route path="events" element={<EventManagement />} />
+
                     <Route
                         path="/*"
                         element={

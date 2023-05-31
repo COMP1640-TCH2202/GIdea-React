@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { Container, Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
+import { Container, Navbar, NavDropdown, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../services/UserService";
 import { clearUser } from "../utils/common";
@@ -23,47 +23,40 @@ const Header = ({ user }) => {
     };
 
     return (
-        <Navbar bg="light" expand="lg">
-            <Container fluid>
-                <Navbar.Brand as={Link} to="/">
-                    GreenIdea
-                </Navbar.Brand>
-                <Nav className="me-auto">
-                    <Nav.Link as={Link} to="/">
-                        Home
-                    </Nav.Link>
-                </Nav>
-                <Nav>
+        <>
+            <Navbar expand="lg" style={{ height: "72px" }}>
+                <Container fluid>
+                    <Navbar.Brand
+                        className="fs-3 ms-2 me-auto text-gi-white"
+                        as={Link}
+                        to="/"
+                    >
+                        GreenIdea
+                    </Navbar.Brand>
                     <NavDropdown
                         title={`${user?.lastName} ${user?.firstName}`}
-                        id="basic-nav-dropdown"
+                        id="nav-dropdown"
                         align="end"
                     >
                         <NavDropdown.Item as={Link} to="/profile">
                             My Account
                         </NavDropdown.Item>
                         {["admin", "manager"].includes(user?.role) && (
-                            <NavDropdown.Item as={Link} to="/management">
+                            <NavDropdown.Item
+                                as={Link}
+                                to="/management/dashboard"
+                            >
                                 App Management
                             </NavDropdown.Item>
                         )}
-                        {/* {user?.role === "admin" | "manager" ? (
-                            <NavDropdown.Item as={Link} to="/submission">
-                                My Submissions
-                            </NavDropdown.Item>
-                        ) : (
-                            <NavDropdown.Item as={Link} to="/management">
-                                App Management
-                            </NavDropdown.Item>
-                        )} */}
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Button} onClick={handleLogout}>
                             Logout
                         </NavDropdown.Item>
                     </NavDropdown>
-                </Nav>
-            </Container>
-        </Navbar>
+                </Container>
+            </Navbar>
+        </>
     );
 };
 

@@ -1,15 +1,15 @@
 import React, { useMemo, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { useQuery } from "@tanstack/react-query";
 import {
     deleteCategory,
     getAllCategories,
 } from "../../services/CategoryService";
 import CategoryTable from "../../components/Tables/DataTable";
-import SearchBar from "../../components/SearchBar/SearchBar";
 import CategoryCanvas from "../../components/Canvas/CategoryCanvas";
 import TrashButton from "../../components/Buttons/TrashButton";
 import LoadingIndicator from "../../components/Indicator/LoadingIndicator";
+import AddButton from "../../components/Buttons/AddButton";
 
 const CategoryManagement = () => {
     const [showUpdate, setShowUpdate] = useState(false);
@@ -32,19 +32,21 @@ const CategoryManagement = () => {
             {
                 Header: "ID",
                 accessor: "id",
-                minWidth: 15,
+                width: 80,
             },
             {
                 Header: "Category Name",
                 accessor: "name",
+                width: 300,
             },
             {
                 Header: "Ideas",
-                accessor: "ideas_count"
+                accessor: "ideas_count",
+                disableGlobalFilter: true,
+                width: 150,
             },
             {
                 id: "actions",
-                width: 20,
                 Cell: ({ row }) => (
                     <div onClick={(e) => e.stopPropagation()}>
                         <TrashButton
@@ -61,6 +63,8 @@ const CategoryManagement = () => {
                         />
                     </div>
                 ),
+                disableGlobalFilter: true,
+                width: 150,
             },
         ],
         []
@@ -75,19 +79,12 @@ const CategoryManagement = () => {
                     Something go terribly wrong!
                 </div>
             )}
-            <Row>
-                <Col className="d-flex justify-content-end">
-                    <SearchBar />
-                    <Button
-                        className="ms-5"
-                        variant="success"
-                        onClick={handleShowUpdate}
-                    >
-                        Add category
-                    </Button>
+            <Row className="mb-3">
+                <Col>
+                    <AddButton handler={handleShowUpdate} />
                 </Col>
             </Row>
-            <Row className="mt-5">
+            <Row>
                 {isLoading ? (
                     <LoadingIndicator />
                 ) : (

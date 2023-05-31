@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import LoadingIndicator from "../../components/Indicator/LoadingIndicator";
 import { useQuery } from "@tanstack/react-query";
 import { deleteUser, getAllUsers } from "../../services/AccountService";
@@ -8,7 +8,7 @@ import EditButton from "../../components/Buttons/EditButton";
 import TrashButton from "../../components/Buttons/TrashButton";
 import AccountTable from "../../components/Tables/DataTable";
 import { dateFormatter } from "../../utils/common";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import AddButton from "../../components/Buttons/AddButton";
 
 const AccountManagement = () => {
     const {
@@ -28,32 +28,42 @@ const AccountManagement = () => {
             {
                 Header: "ID",
                 accessor: "id",
+                width: 80,
             },
             {
                 Header: "Name",
                 accessor: (row) => `${row.last_name} ${row.first_name}`,
                 id: "name",
+                width: 220,
             },
             {
                 Header: "Email",
                 accessor: "email",
+                width: 240,
             },
             {
                 Header: "Gender",
                 accessor: "gender",
+                disableGlobalFilter: true,
+                width: 100,
             },
             {
                 Header: "Date of Birth",
                 accessor: (row) => dateFormatter(row.dob, "en-UK"),
+                disableGlobalFilter: true,
             },
             {
                 Header: "Role",
                 accessor: (row) =>
                     row.role.charAt(0).toUpperCase() + row.role.slice(1),
+                disableGlobalFilter: true,
+                width: 140,
             },
             {
                 Header: "Department",
                 accessor: (row) => row.department ?? "Not Assigned",
+                disableGlobalFilter: true,
+                width: 160,
             },
             {
                 Header: "Added At",
@@ -68,6 +78,7 @@ const AccountManagement = () => {
                           })
                         : "NaN";
                 },
+                disableGlobalFilter: true,
             },
             {
                 id: "actions",
@@ -95,12 +106,17 @@ const AccountManagement = () => {
                         />
                     </div>
                 ),
+                disableGlobalFilter: true,
+                width: 140,
             },
         ],
         []
     );
 
     const dataArray = useMemo(() => accounts, [accounts]);
+
+    const navigate = useNavigate();
+    const addBtnHandler = () => navigate("create");
 
     return (
         <>
@@ -109,20 +125,12 @@ const AccountManagement = () => {
                     Something go terribly wrong!
                 </div>
             )}
-            <Row className="mt-4">
-                <Col className="d-flex justify-content-end">
-                    <SearchBar />
-                    <Button
-                        variant="success"
-                        className="ms-5"
-                        as={Link}
-                        to="create"
-                    >
-                        Add Account
-                    </Button>
+            <Row className="mb-3">
+                <Col>
+                    <AddButton handler={addBtnHandler} />
                 </Col>
             </Row>
-            <Row className="mt-5">
+            <Row>
                 {isLoading ? (
                     <LoadingIndicator />
                 ) : (
