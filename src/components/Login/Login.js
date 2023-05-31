@@ -1,5 +1,4 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import clsx from "clsx";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import styles from "../Login/Login.module.scss";
@@ -60,9 +59,8 @@ function Login() {
     return (
         <div className={styles.login_container}>
             <div className={styles.form_container}>
+                <h1 className={styles.login_heading}>Login</h1>
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <h1 className={styles.login_heading}>Log in</h1>
-
                     <Form.Group className="mb-4">
                         <Controller
                             name="email"
@@ -75,10 +73,10 @@ function Login() {
                                     <Form.Control
                                         {...field}
                                         id="email"
-                                        className={styles.Control}
+                                        className={styles.form_input}
                                         label="Email"
                                         type="text"
-                                        placeholder="Enter account name"
+                                        placeholder="Email"
                                         value={field.value}
                                         onChange={field.onChange}
                                         isInvalid={invalid}
@@ -102,10 +100,10 @@ function Login() {
                                     <Form.Control
                                         {...field}
                                         id="password"
-                                        className={styles.Control}
-                                        label="Email"
+                                        className={styles.form_input}
+                                        label="Password"
                                         type="password"
-                                        placeholder="Enter your password"
+                                        placeholder="Password"
                                         value={field.value}
                                         onChange={field.onChange}
                                         isInvalid={invalid}
@@ -117,21 +115,22 @@ function Login() {
                             )}
                         />
                     </Form.Group>
-
-                    <Form.Group
+                    {/* <Form.Group
                         className={clsx(styles.check_container, "mb-3")}
                         controlId="formBasicCheckbox"
                     >
                         <Form.Check type="checkbox" label="Remember me" />
-                    </Form.Group>
+                    </Form.Group> */}
                     {errors.root?.serverError?.type === 400 && (
                         <p style={{ color: "red" }}>
                             {errors?.root?.serverError?.message}
                         </p>
                     )}
-                    <Button className={styles.Button} type="submit">
-                        Login
-                    </Button>
+                    <div className="d-grid mt-5">
+                        <Button variant="success" type="submit">
+                            Login
+                        </Button>
+                    </div>
                 </Form>
             </div>
         </div>
