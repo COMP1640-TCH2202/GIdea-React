@@ -16,13 +16,15 @@ import { useAlert } from "./contexts/AlertProvider";
 import { ToastContainer, Toast } from "react-bootstrap";
 import IdeaDetail from "./components/Idea/IdeaDetail";
 import TermsPage from "./pages/TermsPage";
+import AppLayout from "./layouts/AppLayout";
 
 const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
 });
 
 function App() {
-    const { openSuccess, openFailure, openWarning, message, close } = useAlert();
+    const { openSuccess, openFailure, openWarning, message, close } =
+        useAlert();
 
     return (
         <>
@@ -34,9 +36,7 @@ function App() {
                     onClose={close}
                     className="align-items-center text-bg-success border-0"
                 >
-                    <Toast.Body>
-                        {message}{" "}
-                    </Toast.Body>
+                    <Toast.Body>{message} </Toast.Body>
                 </Toast>
                 <Toast
                     show={openFailure}
@@ -65,22 +65,24 @@ function App() {
                     </Route>
 
                     <Route element={<PrivateRoutes />}>
-                        <Route element={<HomeLayout />}>
-                            <Route index element={<HomePage />} />
-                            <Route path="/tnc" element={<TermsPage />} />
-                            <Route path="/profile">
-                                <Route index element={<ProfilePage />} />
-                                <Route
-                                    path="submissions/:id"
-                                    element={<SubmissionPage />}
-                                />
+                        <Route element={<AppLayout />}>
+                            <Route element={<HomeLayout />}>
+                                <Route index element={<HomePage />} />
+                                <Route path="/tnc" element={<TermsPage />} />
+                                <Route path="/profile">
+                                    <Route index element={<ProfilePage />} />
+                                    <Route
+                                        path="submissions/:id"
+                                        element={<SubmissionPage />}
+                                    />
+                                </Route>
+                                <Route path="/i/:id" element={<IdeaDetail />} />
                             </Route>
-                            <Route path="/i/:id" element={<IdeaDetail />} />
+                            <Route
+                                path="management/*"
+                                element={<ManagementRoutes />}
+                            />
                         </Route>
-                        <Route
-                            path="management/*"
-                            element={<ManagementRoutes />}
-                        />
                     </Route>
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

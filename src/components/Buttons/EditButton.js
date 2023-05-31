@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import { FaEdit } from "react-icons/fa";
-import DepartmentCanvas from "../Canvas/DepartmentCanvas";
 import { useNavigate } from "react-router-dom";
 
 const EditButton = (props) => {
-    const [show, setShow] = useState(false);
     const navigate = useNavigate();
-    const handleShow = () => setShow(!show);
     const handleNavigate = (to) => navigate(to);
 
     return (
@@ -20,10 +17,6 @@ const EditButton = (props) => {
             >
                 {props.text ?? <FaEdit />}
             </Button>
-
-            {props.resourceType === "department"  && (
-                <DepartmentCanvas show={show} handleShow={handleShow} {...props} />
-            )}
         </>
     );
 };

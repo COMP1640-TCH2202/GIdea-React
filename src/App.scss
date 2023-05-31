@@ -1,18 +1,31 @@
-.App {
-    text-align: center;
-  }
-  
+@import "./styles/colors";
+
+.app {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    .app-header {
+        flex: 0 1 auto;
+        #nav-dropdown {
+            color: $gi-white;
+        }
+    }
+    .app-content {
+        flex: 1 1 auto;
+    }
+}
+
 .clickable-icon {
-  opacity: 0.5;
-  font-size: 1rem;
-  &:hover {
-    cursor: pointer;
-  }
+    opacity: 0.5;
+    font-size: 1rem;
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .clickable {
-  cursor: pointer;
-  .excludeClickable {
-    cursor: auto;
-  }
+    cursor: pointer;
+    .excludeClickable {
+        cursor: auto;
+    }
 }

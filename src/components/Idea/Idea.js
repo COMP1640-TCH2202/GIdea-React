@@ -57,17 +57,17 @@ const VoteSection = ({ idea_id, vote_value, votes }) => {
     };
 
     return (
-        <div className="voteSection d-flex flex-column flex-wrap align-content-center">
-            <div className="voteArrow">
+        <div className="vote-section d-flex flex-column flex-wrap align-content-center">
+            <div className="vote-arrow">
                 <GoArrowUp
-                    className={vote === 1 ? "upvotedArrow" : ""}
+                    className={vote === 1 ? "upvoted" : ""}
                     onClick={() => handleVote(1)}
                 />
             </div>
-            <div className="voteNumber">{numFormatter(currentVotes)}</div>
-            <div className="voteArrow">
+            <div className="vote-number">{numFormatter(currentVotes)}</div>
+            <div className="vote-arrow">
                 <GoArrowDown
-                    className={vote === -1 ? "downvotedArrow" : ""}
+                    className={vote === -1 ? "downvoted" : ""}
                     onClick={() => handleVote(-1)}
                 />
             </div>
@@ -88,7 +88,7 @@ const Idea = ({ data }) => {
         vote_value = null,
         category = null,
         views = 0,
-        comments_count = 0
+        comments_count = 0,
     } = data;
 
     const author_name = user
@@ -103,7 +103,9 @@ const Idea = ({ data }) => {
         });
 
     return (
-        <Card className={`mb-3 ${is_author ? "owned-idea" : ""}`}>
+        <Card
+            className={`idea-container mb-3${is_author ? " owned-idea" : ""}`}
+        >
             <Row className="d-flex g-0">
                 <Col xs={2} md={1} className="d-flex">
                     <Card.Body className="px-0 text-center">
@@ -150,6 +152,7 @@ const Idea = ({ data }) => {
                                 comment_closed && "not-allowed-pointer"
                             }}`}
                             variant="success"
+                            size="sm"
                             disabled={comment_closed}
                         >
                             <BsFillChatFill
@@ -160,7 +163,9 @@ const Idea = ({ data }) => {
                             />
                             <span>Comments</span>
                         </Button>
-                        <span className="ms-3 text-muted">{comments_count} discussions going on</span>
+                        <span className="ms-2 text-muted">
+                            {comments_count} Comments
+                        </span>
                     </Card.Footer>
                 </Col>
             </Row>

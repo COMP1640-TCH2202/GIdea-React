@@ -1,0 +1,19 @@
+@import "./colors";
+
+$primary: $gi-teal;
+$success: $gi-teal;
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/variables-dark";
+
+$custom-colors: (
+  "gi-green": $gi-green,
+  "gi-teal": $gi-teal,
+  "gi-beige": $gi-beige,
+  "gi-white": $gi-white,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import "../../node_modules/bootstrap/scss/bootstrap"

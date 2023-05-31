@@ -5,12 +5,12 @@ import {
     getAllDepartments,
 } from "../../services/DepartmentService";
 import TrashButton from "../../components/Buttons/TrashButton";
-import { Button, Col, Row } from "react-bootstrap";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import { Col, Row } from "react-bootstrap";
 import LoadingIndicator from "../../components/Indicator/LoadingIndicator";
 import DepartmentTable from "../../components/Tables/DataTable";
 import EditButton from "../../components/Buttons/EditButton";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import AddButton from "../../components/Buttons/AddButton";
 
 const DepartmentManagement = () => {
     const {
@@ -30,24 +30,30 @@ const DepartmentManagement = () => {
             {
                 Header: "ID",
                 accessor: "id",
+                width: 80,
             },
             {
                 Header: "Department Name",
                 accessor: "name",
+                width: 220,
             },
             {
                 Header: "Coordinator",
                 accessor: (row) => row?.coordinator?.name ?? "Not Assigned",
                 id: "coordinator",
+                width: 220,
             },
             {
                 Header: "Coordinator Email",
                 accessor: (row) => row?.coordinator?.email ?? "",
                 id: "coordinator_email",
+                width: 240,
             },
             {
                 Header: "Members",
                 accessor: "number_of_members",
+                disableGlobalFilter: true,
+                width: 120,
             },
             {
                 id: "actions",
@@ -78,12 +84,16 @@ const DepartmentManagement = () => {
                         />
                     </div>
                 ),
+                disableGlobalFilter: true,
             },
         ],
         []
     );
 
     const dataArray = useMemo(() => departments, [departments]);
+
+    const navigate = useNavigate();
+    const addBtnHandler = () => navigate("create");
 
     return (
         <>
@@ -92,20 +102,12 @@ const DepartmentManagement = () => {
                     Something go terribly wrong!
                 </div>
             )}
-            <Row className="mt-4">
-                <Col className="d-flex justify-content-end">
-                    <SearchBar />
-                    <Button
-                        variant="success"
-                        className="ms-5"
-                        as={Link}
-                        to="create"
-                    >
-                        Add Department
-                    </Button>
+            <Row className="mb-3">
+                <Col>
+                    <AddButton handler={addBtnHandler} />
                 </Col>
             </Row>
-            <Row className="mt-5">
+            <Row>
                 {isLoading ? (
                     <LoadingIndicator />
                 ) : (

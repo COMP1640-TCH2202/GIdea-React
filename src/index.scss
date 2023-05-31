@@ -1,33 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
-// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-@import "../node_modules/bootstrap/scss/functions";
-
-// 2. Include any default variable overrides here
-
-// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/variables-dark";
-
-// 4. Include any default map overrides here
-
-// 5. Include remainder of required parts
-@import "../node_modules/bootstrap/scss/maps";
-@import "../node_modules/bootstrap/scss/mixins";
-@import "../node_modules/bootstrap/scss/root";
-
-// $this: $green;
-
-// $theme-colors: map-merge($theme-colors, (
-//   "primary": $this
-// ));
-  
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 html,
 body,
-#root,
-.app,
-.content {
+#root {
     margin: 0;
     height: 100%;
     width: 100%;
@@ -36,7 +11,16 @@ body,
     -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+    overflow-y: scroll;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
+}
+
+svg {
+    position: relative;
+    bottom: 0.05em;
 }

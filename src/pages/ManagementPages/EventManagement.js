@@ -96,14 +96,16 @@ const CreateEventButton = ({ handleShowCanvas }) => {
                 There are no event running at the moment, start a new one now to
                 accept submissions.
             </p>
-            <Button
-                variant="success"
-                style={{ width: "30rem", margin: "auto" }}
-                className="my-1"
-                onClick={handleShowCanvas}
-            >
-                Start a new event
-            </Button>
+            <div className="d-grid">
+                <Button
+                    variant="success"
+                    style={{ width: "80%", margin: "auto" }}
+                    className="my-1"
+                    onClick={handleShowCanvas}
+                >
+                    Start a new event
+                </Button>
+            </div>
         </>
     );
 };
@@ -130,26 +132,36 @@ const EventsTable = () => {
             {
                 Header: "ID",
                 accessor: "id",
+                width: 40,
             },
             {
                 Header: "Open Date",
                 accessor: "open_date",
+                width: 160,
+                disableGlobalFilter: true,
             },
             {
                 Header: "First Closure Date",
                 accessor: "first_closure_date",
+                width: 160,
+                disableGlobalFilter: true,
             },
             {
                 Header: "Final Closure Date",
                 accessor: "final_closure_date",
+                width: 160,
+                disableGlobalFilter: true,
             },
             {
                 Header: "No. Ideas",
                 accessor: "ideas_count",
+                width: 80,
+                disableGlobalFilter: true,
             },
             {
                 Header: "Status",
                 accessor: "status",
+                disableGlobalFilter: true,
             },
         ],
         []

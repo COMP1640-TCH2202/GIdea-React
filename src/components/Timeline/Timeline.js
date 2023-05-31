@@ -9,7 +9,9 @@ const Timeline = ({ data, ...props }) => {
             {ideaList.map((idea) => (
                 <Idea data={idea} key={idea.id} />
             ))}
-            <TimelinePagination {...props} />
+            <div className="timeline-pagination mt-5">
+                <TimelinePagination {...props} />
+            </div>
         </>
     );
 };
