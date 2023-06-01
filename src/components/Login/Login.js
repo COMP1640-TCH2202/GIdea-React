@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import styles from "../Login/Login.module.scss";
@@ -6,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { login } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../../utils/common";
+import { Spinner } from "react-bootstrap";
 
 function Login() {
     const navigate = useNavigate();
@@ -14,13 +14,15 @@ function Login() {
         control,
         handleSubmit,
         setError,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
             email: "",
             password: "",
         },
     });
+
+    console.log(isSubmitting);
 
     const onSubmit = async (data) => {
         const request = {
@@ -30,7 +32,7 @@ function Login() {
 
         //Because login() return a Promise so we have to resolve it
         //can also use await
-        login(request)
+        return login(request)
             .then((result) => {
                 const user = {
                     lastName: result.data.user.last_name,
@@ -127,8 +129,22 @@ function Login() {
                         </p>
                     )}
                     <div className="d-grid mt-5">
-                        <Button variant="success" type="submit">
+                        <Button
+                            variant="success"
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
                             Login
+                            {isSubmitting && (
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                    className="ms-2"
+                                />
+                            )}
                         </Button>
                     </div>
                 </Form>
