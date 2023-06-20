@@ -10,6 +10,9 @@ import { Spinner } from "react-bootstrap";
 function Login() {
     const navigate = useNavigate();
 
+    const env = process.env.NODE_ENV;
+    console.log("ENV = ", env);
+
     const {
         control,
         handleSubmit,
@@ -21,8 +24,6 @@ function Login() {
             password: "",
         },
     });
-
-    console.log(isSubmitting);
 
     const onSubmit = async (data) => {
         const request = {
@@ -148,6 +149,9 @@ function Login() {
                         </Button>
                     </div>
                 </Form>
+            </div>
+            <div style={{position: 'absolute', bottom: 0, color: 'lightsteelblue'}}>
+                <h5>Current ENV: {env}</h5>
             </div>
         </div>
     );
