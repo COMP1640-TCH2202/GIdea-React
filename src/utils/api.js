@@ -1,11 +1,17 @@
 import axios from "axios";
 import { clearUser } from "./common";
 
+const url =
+    process.env.NODE_ENV === "production"
+        ? "https://api.greenidea.site"
+        : "http://localhost";
+
 const instance = axios.create({
-    baseURL: process.env.REACT_APP_API_BASEURL,
+    // baseURL: process.env.REACT_APP_API_BASEURL,
+    baseURL: url,
     headers: {
         "X-Requested-With": "XMLHttpRequest",
-        "Accept": "application/json",
+        Accept: "application/json",
     },
     withCredentials: true,
 });
